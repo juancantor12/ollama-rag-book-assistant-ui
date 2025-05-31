@@ -1,42 +1,84 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    font-family: Verdana;
+}
+
+@media (max-width: 1200px) {
+    body {
+        width: 70%;
+    }
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.chat-column {
+    width: 35%;
+}
+
+.pdf-column {
+    width: 65%;
+}
+
+
+@media (max-width: 840px) {
+    body {
+        width: 90%;
+    }
+    .row {
+        flex-direction: column;
+    }
+    .chat-column {
+        width: 100%;
+    }
+    .pdf-column {
+        width: 100%;
+    }
+}
+
+a {
+    color: #142c7d;
+}
+
+select, textarea {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 90%;
+}
+
+.disclaimer {
+    font-size: 14px;
+    background: #ededed;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
 
 .card {
-  padding: 2em;
+    border: 1px solid #bababa;
+    padding: 13px;
+    box-shadow: -2px 2px 3px #cccccc;
+    margin: 15px;
 }
 
-.read-the-docs {
-  color: #888;
+.cited-pages li:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.question-box{
+    width: 80%;
+}
+
+.small {
+    font-size: 10px;
 }
