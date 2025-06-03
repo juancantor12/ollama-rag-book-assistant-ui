@@ -1,13 +1,13 @@
 body {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 85%;
     font-family: Verdana;
 }
 
 @media (max-width: 1200px) {
     body {
-        width: 85%;
+        width: 95%;
     }
 }
 .row {
@@ -25,18 +25,15 @@ body {
 }
 
 
-@media (max-width: 840px) {
-    body {
-        width: 90%;
-    }
+@media (max-width: 1040px) {
     .row {
         flex-direction: column;
     }
     .chat-column {
-        width: 100%;
+        width: 90%;
     }
     .pdf-column {
-        width: 100%;
+        width: 90%;
     }
 }
 
@@ -81,9 +78,13 @@ select, textarea {
 .cited-pages {
     font-size: 12px;
 }
-.cited-pages li:hover {
-    text-decoration: underline;
+
+.cited-pages a {
     cursor: pointer;
+}
+
+.answer  {
+    font-size: 14px;
 }
 
 .question-box{
@@ -94,6 +95,20 @@ select, textarea {
     font-size: 10px;
 }
 
-.spinner {
+.d-inline {
     display: inline;
+}
+
+.c-point {
+    cursor: pointer;
+}
+
+.go-to-input {
+    margin-left: 15px;
+}
+
+.go-to-input input {
+    width: 6ch;
+    margin-left: 8px;
+    margin-right: 8px;
 }

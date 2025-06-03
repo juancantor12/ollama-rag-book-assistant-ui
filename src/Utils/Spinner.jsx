@@ -35,6 +35,6 @@ const Spinner = forwardRef(({ timer = 100 }, ref) => {
         }
         return () => clearInterval(interval);
     }, [isSpinning, timer])
-    return <div className="spinner" ref={spinnerRef}>{isSpinning ? '⡀' : '⡷'}</div>
+    return <div className="d-inline" ref={spinnerRef}>{isSpinning ? '⡀' : '⡷'}</div>
 })
 export default Spinner
