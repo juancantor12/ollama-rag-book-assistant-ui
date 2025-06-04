@@ -22,7 +22,9 @@ function QuestionBox({
                 className="question-box"
                 disabled={demo}
                 value={demo && selectedQuestionText}
-                // onChange={(e) => setQuestionText(e.target.value)}
+                onChange={(e) => setQuestionText(e.target.value)}
+                rows={3}
+                cols={40}
             />
         )
     }

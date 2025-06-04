@@ -1,9 +1,9 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { pdfjs, Document, Page } from 'react-pdf'
 import demoPdf from '../assets/iama4.pdf'
 import 'react-pdf/dist/Page/TextLayer.css';
 
-function PDFViewer({ page, setPage, llmResponse}) {
+function PDFViewer({ page, setPage, llmResponse, searchText, setSearchText}) {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
         'pdfjs-dist/build/pdf.worker.min.mjs',
         import.meta.url,
@@ -11,7 +11,10 @@ function PDFViewer({ page, setPage, llmResponse}) {
 
     const [numPages, setNumPages] = useState()
     const [goToValue, setGoToValue] = useState(1)
-    const [searchText, setSearchText] = useState(llmResponse.highlight) //TODO: Not working, add jump to highligthed page.
+
+    useEffect(() => {
+        setGoToValue(page)
+    }, [page])
 
     const handleGoToChange = (event) => {
         const value = Math.min(Math.max(event.target.value, 1), numPages)
@@ -21,13 +24,15 @@ function PDFViewer({ page, setPage, llmResponse}) {
         setNumPages(numPages);
     }
 
-    const textRenderer = useCallback(
-        (textItem) => textItem.str.replace(searchText, (value) => `<mark>${value}</mark>`),
+    const textRenderer = useCallback( (textItem) => {
+            // return textItem.str.replace(searchText, (value) => `<mark>${value}</mark>`)
+            const regex = new RegExp(searchText, 'gi');
+            return textItem.str.replace(regex, (match) => `<mark>${match}</mark>`);
+        },
         [searchText]
     );
     return (
         <>
-            <p>Viewing page #{page}</p>
             <Document file={demoPdf} onLoadSuccess={onDocumentLoadSuccess}>
                 <Page 
                     pageNumber={page}
@@ -69,6 +74,14 @@ function PDFViewer({ page, setPage, llmResponse}) {
                         }
                     />
                     <div className="d-inline c-point" onClick={() => setPage(goToValue)}>▶</div>
+                </div>
+                <div className="d-inline go-to-input">
+                    Search in page: 
+                    <input 
+                        type="text"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
                 </div>
             </div>
         </>

@@ -3,8 +3,7 @@ const demoQuestions = [
         id: 0, 
         text: "" ,
         answer: "",
-        references: [],
-        highlight: ""
+        references: []
     },
     { 
         id: 1, 
@@ -13,19 +12,27 @@ const demoQuestions = [
         references: [
             {section: "23.4 Generalization in Reinforcement Learning.", pages: [854, 855, 856]},
             {section: "19.6 Linear Regression and Classification.", pages: [700, 701, 702]},
-        ],
-        highlight: "Widrow–Hoff rule"
+        ]
     },
     { 
         id: 2, 
-        text: "Por que el cielo no es violeta" ,
-        answer: "Por que no",
+        text: "What techniques are used when an agent sensors fail and cannot provide information?" ,
+        answer: "When an agent's sensors fail, leading to a lack of information about the environment, several strategies and techniques can be employed to handle the uncertainty and maintain functionality:\n\n1. **Redundancy**: Implementing redundant sensor systems allows for backup data collection if one sensor fails. This redundancy ensures that at least some level of environmental perception is maintained.\n\n2. **Fallback Strategies**: Designing fallback or default behaviors helps an agent continue operating safely despite partial or complete loss of sensory input. These can include predefined actions like stopping, returning to a safe location, or entering a low-power state until normal operation resumes.\n\n3. **Probabilistic Reasoning and Bayesian Inference**: Agents can use probabilistic models to make educated guesses about the environment based on prior knowledge and any available partial data. Techniques such as Bayesian inference help in updating beliefs about the world with new, albeit uncertain, information.\n\n4. **Data Imputation and Estimation**: When sensor data is missing or incomplete, techniques like interpolation, extrapolation, or machine learning algorithms can estimate the missing information based on historical data or patterns observed from other functioning sensors.\n\n5. **State Estimation Methods**: Techniques such as Kalman filters or particle filters allow agents to maintain a belief state about their environment, integrating past sensor readings and predictions of current states to provide an ongoing estimate even when some sensory inputs are unavailable.\n\n6. **Robust Control**: Implementing control strategies that can handle variability and uncertainty ensures that the agent remains stable and effective despite incomplete data. Robust control techniques often incorporate assumptions or worst-case scenarios in their design.\n\n7. **Simulation and Scenario Testing**: Running simulations with various failure modes helps prepare an agent for sensor failures by predefining responses to different types of sensory loss, allowing it to act more effectively when encountering real-world issues.\n\n8. **Human Intervention**: In critical systems where autonomous operation cannot be fully guaranteed, provisions can be made for human intervention or oversight. When sensors fail beyond the capability of automated recovery, human operators may take control to ensure safety and task continuation.\n\nBy employing these strategies, an agent can maintain a degree of functionality and decision-making capacity even in situations where sensor inputs are compromised or entirely lost.",
         references: [
-            {section: "Chapter 1.4 Lorem Ipsum.", pages: [2] },
-            {section: "Chapter 1.5 Lorem Ipsum.", pages: [4] },
-            {section: "Chapter 1.6 Lorem Ipsum.", pages: [6] },
-        ],
-        highlight: ""
+            {section: "4.3 Search with Nondeterministic Actions.", pages: [143, 144, 145] },
+            {section: "2.3 The Nature of Environments.", pages: [61, 62, 63] },
+            {section: "From 14.5 Dynamic Bayesian Networks", pages: [505, 506, 507] },
+        ]
+    },
+    { 
+        id: 3, 
+        text: "How is an agent knowledge of its own knowledge and reasoning process addressed when analysing how an agent might deduce if it can or cannot answer a question?" ,
+        answer: "In analyzing how an agent might deduce whether it can or cannot answer a question, the concepts of mental objects and modal logic are particularly relevant. These ideas address an agent's awareness of its own knowledge and reasoning processes.\n\n### Mental Objects and Modal Logic\n\n1. **Mental Objects**: Agents possess beliefs and can deduce new ones, but they typically lack explicit knowledge about their own knowledge or reasoning processes. Understanding one's own mental state is crucial for controlling inference. For example, if an agent (say, Bob) does not know the answer to a question like \"What is the square root of 1764?\" upon request from another entity (Alice), it can be beneficial for the agent to recognize that further reasoning might lead to the correct answer. Conversely, recognizing when additional thought is unlikely to yield results helps in decision-making.\n\n2. **Propositional Attitudes**: The book discusses propositional attitudes such as Believes, Knows, Wants, and Informs. These are not like normal predicates because they can have different implications depending on context (e.g., referential opacity). An example provided is Lois's knowledge about Superman: if she knows \"Superman can fly,\" it doesn't imply she knows that \"Clark Kent can fly,\" despite Superman being Clark Kent.\n\n3. **Modal Logic**: To address issues like referential transparency, where the identity of terms matters, modal logic is introduced. This involves using special operators to express knowledge and other attitudes towards propositions. For example, \"A knows P\" would be denoted as KAP in modal logic. Modal logic allows for reasoning about possible worlds and what an agent might know or deduce in each world.\n\n4. **Possible Worlds**: In modal logic, the concept of possible worlds is used to represent different scenarios that are consistent with what an agent knows. An agent's knowledge is represented across these worlds, allowing it to consider various possibilities and determine if additional reasoning could lead to new insights or confirmations about a question.\n\n5. **Referential Opacity**: Modal logic helps manage referential opacity in propositional attitudes by allowing different terms (even if they refer to the same object) to be treated distinctly based on what is known in each possible world.\n\n### Application\n\nWhen an agent encounters a question, it can use its understanding of these concepts to determine:\n\n- Whether it has enough information or reasoning capacity to answer.\n- If additional thought or information gathering might lead to an answer.\n- When further attempts at reasoning are unlikely to be fruitful and thus should be avoided.\n\nBy employing modal logic and recognizing the nuances of propositional attitudes, agents can better manage their knowledge and inference processes, leading to more effective decision-making in complex environments.",
+        references: [
+            {section: "10.3 Events.", pages: [342, 343, 344 ]},
+            {section: "III: Knowledge, reasoning, and planning.", pages: [225, 226, 227] },
+            {section: "Chapter 7: Logical Agents", pages: [226, 227, 228] },
+        ]
     }
 ]
 

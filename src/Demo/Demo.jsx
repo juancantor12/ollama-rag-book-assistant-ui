@@ -11,7 +11,8 @@ function Demo() {
     const [selectedQuestionText, setSelectedQuestionText] = useState(demoQuestions[0].text)
     const [message, setMessage] = useState("")
     const [askedQuestion, setAskedQuestion] = useState("")
-    const [llmResponse, setllmResponse] = useState({answer: "", references: [], highlight: ""})
+    const [llmResponse, setllmResponse] = useState(demoQuestions[0])
+    const [searchText, setSearchText] = useState("")
     const spinnerRef = useRef();
 
     useEffect(() => {
@@ -19,6 +20,13 @@ function Demo() {
     }, [selectedQuestionId])
 
     useEffect(() => {
+        if (llmResponse.references.length > 0) {
+            setPage(llmResponse.references[0].pages[1])
+        }
+    }, [llmResponse])
+
+    useEffect(() => {
+        setllmResponse(demoQuestions[0])
         if (askedQuestion == "") {
             setMessage("Please provide a question.")
             return
@@ -31,13 +39,9 @@ function Demo() {
                 spinnerRef.current.stop();
                 setMessage("Answer successfully retrieved.")
                 // console.log(selectedQuestionId)
-                setllmResponse({
-                    answer: demoQuestions[selectedQuestionId].answer,
-                    references: demoQuestions[selectedQuestionId].references,
-                    highlight: demoQuestions[selectedQuestionId].highlight,
-                })
-             }, 3500); 
-         }, 2500);
+                setllmResponse(demoQuestions[selectedQuestionId])
+             }, 1500); 
+         }, 1000);
     }, [askedQuestion])
 
     const predefinedQuestionsLi = ( demoQuestions.map( questionObj =>
@@ -72,7 +76,13 @@ function Demo() {
                     <Answer llmResponse={llmResponse} setPage={setPage}/>
                 </div>
                 <div className="pdf-column">
-                    <PDFViewer page={page} setPage={setPage} llmResponse={llmResponse}/>
+                    <PDFViewer 
+                        page={page}
+                        setPage={setPage}
+                        llmResponse={llmResponse}
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                    />
                 </div>
             </div>
         </>
