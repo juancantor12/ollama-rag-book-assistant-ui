@@ -7,6 +7,8 @@ function QuestionBox({
     useEffect(() => {
         if (demo) {
             setQuestionText(selectedQuestionText);
+        } else {
+            setQuestionText(questionText)
         }
     }, [demo, selectedQuestionText]);
 
@@ -15,14 +17,18 @@ function QuestionBox({
         setAskedQuestion(questionText)
     }
 
+    const handleChange = (e) => {
+        (e) => setQuestionText(e.target.value)
+    }
+
     const TextArea = function() {
         return (
             <textarea 
                 name="question"
                 className="question-box"
                 disabled={demo}
-                value={demo && selectedQuestionText}
-                onChange={(e) => setQuestionText(e.target.value)}
+                value={demo ? selectedQuestionText : ""}
+                onChange={handleChange}
                 rows={3}
                 cols={40}
             />

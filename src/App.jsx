@@ -1,17 +1,90 @@
-// import { useState } from 'react'
-import app_icon from './assets/ollama_book.png'
+import { useState, useEffect } from 'react'
 import './assets/App.css'
 import Demo from './Demo/Demo.jsx'
+import Header from './Utils/Header.jsx'
+import { useServerStatus, useLogin } from "./Api/Api.jsx"
 
 function App() {
+    const {
+        data: dataSS,
+        error: errorSS,
+        isLoading: isLoadingSS,
+        isError: isErrorSS
+    } = useServerStatus()
+    const {
+        mutate: mutateLI,
+        isLoading: isLoadingLI,
+        isSuccess: isSuccessLI,
+        isError: isErrorLI,
+        error: errorLI
+    } = useLogin()
+
+    useEffect(()=>{
+        if (errorLI !== undefined && errorLI !== null){
+           if (errorLI == 401){
+                setInvalidCredentialsMsg(true)
+           }
+        }
+    }, [errorLI])
+
+    useEffect(()=>{
+        if (isSuccessLI === true){
+            console.log("ok")
+        }
+    }, [isSuccessLI])
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value)
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        mutateLI({username, password})
+    }
+    const LoginForm = (
+            <>
+                <form onSubmit={handleSubmit}>
+                    <label>Username:<br />
+                    <input 
+                        type="text"
+                        value={username}
+                        onChange={handleUsernameChange}
+                    /></label>
+                <br />
+                    <label>Password:<br />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    /></label>
+                <br />
+                <button type="submit">Login</button>
+                <br />
+                {errorLI && (
+                    <div className="card warn">Invalid credentials</div>
+                )}
+                </form>
+            </>
+    )
+
+    const loginOptions = () => {
+        if (isErrorSS) {
+            return <p>The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>
+        }
+        if (isLoadingSS) {
+            return <p>Waiting for the server...</p>
+        }
+        return LoginForm
+    };
+
     return (
         <>
-            <div>
-                    <img src={app_icon} className="logo" alt="Vite logo" />
-            </div>
-            <h1>Ollama book assistant.</h1>
+            <Header />
             <div className="card">
-                The server is currently unavailable, please see the <a href="#demo">demo</a>.
+                {loginOptions()}
             </div>
             <div className="disclaimer card">
                     I host this app on a local machine so both the Embeddings and LLM 

@@ -125,6 +125,7 @@ button {
     padding-bottom: 5px;
     padding-right: 10px;
     padding-left: 10px;
+    margin-top: 5px;
     background-color: white;
     color: black;
     border: 2px solid #555555;
@@ -134,4 +135,14 @@ button:hover {
     cursor: pointer;
     background-color: #555555;
     color: white;
+}
+
+input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+}
+.warn {
+    background-color: #f7e5b2;
 }
