@@ -13,7 +13,6 @@ function Assistant() {
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
     const spinnerRef = useRef();
-
     useEffect(() => {
         if (llmResponse.references.length > 0) {
             setPage(llmResponse.references[0].pages[1])
@@ -21,22 +20,34 @@ function Assistant() {
     }, [llmResponse])
 
     useEffect(() => {
-        setllmResponse(demoQuestions[0])
-        if (askedQuestion == "") {
-            setMessage("Please provide a question.")
-            return
+        // setllmResponse(demoQuestions[0])
+        // if (askedQuestion == "") {
+        //     setMessage("Please provide a question.")
+        //     return
+        // }
+        console.log("calling api")
+        const apiUrl = import.meta.env.VITE_API_URL
+        const fetchData = async () => {
+            const response = await fetch(apiUrl + "/ask/", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({book_filename: "mybook", question: "myquestion"}),
+                credentials: 'include'
+            });
         }
-        spinnerRef.current.start();
-        setMessage("Recollecting relevant documents...")
-        setTimeout(function() {
-            setMessage("Qerying the LLM with relevant documents...")
-            setTimeout(function() {
-                spinnerRef.current.stop();
-                setMessage("Answer successfully retrieved.")
-                console.log("call api")
-                // setllmResponse(demoQuestions[selectedQuestionId])
-             }, 1500); 
-         }, 1000);
+        fetchData();
+        // spinnerRef.current.start();
+        // setMessage("Recollecting relevant documents...")
+        // setTimeout(function() {
+        //     setMessage("Qerying the LLM with relevant documents...")
+        //     setTimeout(function() {
+        //         spinnerRef.current.stop();
+        //         setMessage("Answer successfully retrieved.")
+        //         // setllmResponse(demoQuestions[selectedQuestionId])
+        //      }, 1500); 
+        //  }, 1000);
     }, [askedQuestion])
 
     return (

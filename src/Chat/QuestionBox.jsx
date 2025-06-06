@@ -18,7 +18,7 @@ function QuestionBox({
     }
 
     const handleChange = (e) => {
-        (e) => setQuestionText(e.target.value)
+        setQuestionText(e.target.value)
     }
 
     const TextArea = function() {
@@ -27,7 +27,7 @@ function QuestionBox({
                 name="question"
                 className="question-box"
                 disabled={demo}
-                value={demo ? selectedQuestionText : ""}
+                value={questionText}
                 onChange={handleChange}
                 rows={3}
                 cols={40}

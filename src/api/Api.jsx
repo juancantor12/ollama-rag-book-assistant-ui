@@ -37,8 +37,7 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: login,
         onSuccess: (data) => {
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("type", data.type)
+            localStorage.setItem("permissions", data.permissions)
         },
     })
 }
