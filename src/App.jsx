@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate   } from "react-router"
 import './assets/App.css'
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
@@ -18,7 +19,10 @@ function App() {
         isError: isErrorLI,
         error: errorLI
     } = useLogin()
-
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
+    let navigate = useNavigate()
     useEffect(()=>{
         if (errorLI !== undefined && errorLI !== null){
            if (errorLI == 401){
@@ -29,13 +33,9 @@ function App() {
 
     useEffect(()=>{
         if (isSuccessLI === true){
-            console.log("ok")
+            navigate("/assistant");
         }
     }, [isSuccessLI])
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)

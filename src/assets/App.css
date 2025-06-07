@@ -136,6 +136,11 @@ button:hover {
     background-color: #555555;
     color: white;
 }
+button:disabled {
+    cursor: wait;
+    background-color: #555555;
+    color: #cccccc;
+}
 
 input {
     margin-top: 5px;

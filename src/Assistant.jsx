@@ -5,6 +5,7 @@ import Spinner from './Utils/Spinner.jsx'
 import QuestionBox from './Chat/QuestionBox.jsx'
 import Answer from './Chat/Answer.jsx'
 import Header from './Utils/Header.jsx'
+import { useAsk } from "./Api/Api.jsx"
 
 function Assistant() {
     const [page, setPage] = useState(1)
@@ -12,7 +13,17 @@ function Assistant() {
     const [askedQuestion, setAskedQuestion] = useState("")
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
+    const [disableButton, setDisableButton] = useState(false)
     const spinnerRef = useRef();
+    const {
+        mutate: mutateAsk,
+        isLoading: isLoadingAsk,
+        isSuccess: isSuccessAsk,
+        data: dataAsk,
+        isError: isErrorAsk,
+        error: errorAsk
+    } = useAsk()
+
     useEffect(() => {
         if (llmResponse.references.length > 0) {
             setPage(llmResponse.references[0].pages[1])
@@ -20,34 +31,24 @@ function Assistant() {
     }, [llmResponse])
 
     useEffect(() => {
-        // setllmResponse(demoQuestions[0])
-        // if (askedQuestion == "") {
-        //     setMessage("Please provide a question.")
-        //     return
-        // }
-        console.log("calling api")
-        const apiUrl = import.meta.env.VITE_API_URL
-        const fetchData = async () => {
-            const response = await fetch(apiUrl + "/ask/", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({book_filename: "mybook", question: "myquestion"}),
-                credentials: 'include'
-            });
+        if (isSuccessAsk === true) {
+            spinnerRef.current.stop()
+            setllmResponse(dataAsk)
+            setMessage("Answer successfully retrieved.")
+            setDisableButton(false)
         }
-        fetchData();
-        // spinnerRef.current.start();
-        // setMessage("Recollecting relevant documents...")
-        // setTimeout(function() {
-        //     setMessage("Qerying the LLM with relevant documents...")
-        //     setTimeout(function() {
-        //         spinnerRef.current.stop();
-        //         setMessage("Answer successfully retrieved.")
-        //         // setllmResponse(demoQuestions[selectedQuestionId])
-        //      }, 1500); 
-        //  }, 1000);
+    }, [isSuccessAsk])
+
+    useEffect(() => {
+        setllmResponse(demoQuestions[0])
+        if (askedQuestion == "") {
+            setMessage("Please provide a question.")
+            return
+        }
+        spinnerRef.current.start();
+        setMessage("Recollecting relevant documents and asking the LLM...")
+        setDisableButton(true)
+        mutateAsk({book_filename: "iama4.pdf", question: askedQuestion})
     }, [askedQuestion])
 
     return (
@@ -59,6 +60,7 @@ function Assistant() {
                         selectedQuestionText={null}
                         demo={false}
                         setAskedQuestion={setAskedQuestion}
+                        disableButton={disableButton}
                     />
                     <div className="disclaimer card small">
                         <Spinner ref={spinnerRef} />&nbsp;{message}

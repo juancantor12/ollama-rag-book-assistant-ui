@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 function QuestionBox({
-    selectedQuestionText = "", demo = false, setAskedQuestion
+    selectedQuestionText = "", demo = false, setAskedQuestion, disableButton
 }) {
     const [questionText, setQuestionText] = useState("");
     useEffect(() => {
@@ -21,25 +21,19 @@ function QuestionBox({
         setQuestionText(e.target.value)
     }
 
-    const TextArea = function() {
-        return (
-            <textarea 
-                name="question"
-                className="question-box"
-                disabled={demo}
-                value={questionText}
-                onChange={handleChange}
-                rows={3}
-                cols={40}
-            />
-        )
-    }
-
     return (
             <div className="card-inn">
-                <TextArea />
+                 <textarea 
+                    name="question"
+                    className="question-box"
+                    disabled={demo}
+                    value={questionText}
+                    onChange={handleChange}
+                    rows={3}
+                    cols={40}
+                />
                 <br />
-                <button onClick={(e) => answerQuestion(e) }>Ask</button>
+                <button disabled={disableButton} onClick={(e) => answerQuestion(e) }>Ask</button>
             </div>
         )
 

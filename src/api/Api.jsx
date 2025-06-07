@@ -1,8 +1,8 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query"
 const apiUrl = import.meta.env.VITE_API_URL
 
 export const checkServerStatus = async () => {
-    const response = await fetch(apiUrl + "/status/");
+    const response = await fetch(apiUrl + "/status/")
     if (!response.ok) {
         throw new Error("Server is down")
     }
@@ -25,8 +25,9 @@ export const login = async (credentials) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(credentials),
-    });
+    })
     if (!response.ok) {
         throw response.status
     }
@@ -39,5 +40,26 @@ export const useLogin = () => {
         onSuccess: (data) => {
             localStorage.setItem("permissions", data.permissions)
         },
+    })
+}
+
+export const ask = async (query) => {
+    const response = await fetch(apiUrl + "/ask/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(query),
+    })
+    if (!response.ok) {
+        throw new Error("Server is down")
+    }
+    return response.json()
+}
+
+export const useAsk = () => {
+    return useMutation({
+        mutationFn: ask,
     })
 }
