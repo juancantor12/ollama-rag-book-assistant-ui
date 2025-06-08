@@ -1,49 +1,58 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate   } from "react-router"
 import './assets/App.css'
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
 import { useServerStatus, useLogin } from "./Api/Api.jsx"
+import useCheckSession from './Utils/useCheckSession.jsx'
 
 function App() {
     const {
-        data: dataSS,
-        error: errorSS,
         isLoading: isLoadingSS,
         isError: isErrorSS
     } = useServerStatus()
     const {
-        mutate: mutateLI,
-        isLoading: isLoadingLI,
-        isSuccess: isSuccessLI,
-        isError: isErrorLI,
-        error: errorLI
+        mutate: mutateLogin,
+        isSuccess: isSuccessLogin,
+        error: errorLogin
     } = useLogin()
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
     let navigate = useNavigate()
+
+    useCheckSession()
+
     useEffect(()=>{
-        if (errorLI !== undefined && errorLI !== null){
-           if (errorLI == 401){
+        if (errorLogin !== undefined && errorLogin !== null){
+           if (errorLogin == 401){
                 setInvalidCredentialsMsg(true)
            }
         }
-    }, [errorLI])
+    }, [errorLogin])
 
     useEffect(()=>{
-        if (isSuccessLI === true){
+        if (isSuccessLogin === true){
             navigate("/assistant");
         }
-    }, [isSuccessLI])
+    }, [isSuccessLogin])
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        mutateLI({username, password})
+        mutateLogin({username, password})
     }
+    const setSession = (valid) => {
+        if (valid) {
+
+        } else {
+
+        }
+    }
+
     const LoginForm = (
             <>
                 <form onSubmit={handleSubmit}>
@@ -63,7 +72,7 @@ function App() {
                 <br />
                 <button type="submit">Login</button>
                 <br />
-                {errorLI && (
+                {errorLogin && (
                     <div className="card warn">Invalid credentials</div>
                 )}
                 </form>

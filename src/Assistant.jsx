@@ -1,19 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
 import demoQuestions from './Demo/DemoQuestions.jsx'
+import useCheckSession from './Utils/useCheckSession.jsx'
+import Header from './Utils/Header.jsx'
 import PDFViewer from './Utils/PDFViewer.jsx'
 import Spinner from './Utils/Spinner.jsx'
 import QuestionBox from './Chat/QuestionBox.jsx'
 import Answer from './Chat/Answer.jsx'
-import Header from './Utils/Header.jsx'
 import { useAsk } from "./Api/Api.jsx"
 
 function Assistant() {
+    useCheckSession()
     const [page, setPage] = useState(1)
     const [message, setMessage] = useState("")
     const [askedQuestion, setAskedQuestion] = useState("")
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
     const [disableButton, setDisableButton] = useState(false)
+    const sessionChecked = useRef(false);
     const spinnerRef = useRef();
     const {
         mutate: mutateAsk,
