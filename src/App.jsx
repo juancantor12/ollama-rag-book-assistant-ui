@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate   } from "react-router"
+import { useNavigate } from "react-router"
 import './assets/App.css'
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
 import { useServerStatus, useLogin } from "./Api/Api.jsx"
 import useCheckSession from './Utils/useCheckSession.jsx'
+import Navbar from './Utils/Navbar.jsx'
 
 function App() {
     const {
         isLoading: isLoadingSS,
-        isError: isErrorSS
+        isError: isErrorSS,
+        isSuccess: isSuccessSS
     } = useServerStatus()
     const {
         mutate: mutateLogin,
@@ -22,7 +24,12 @@ function App() {
     const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
     let navigate = useNavigate()
 
-    useCheckSession()
+    const {
+        refetch: refetchCheckSession,
+        isError: isErrorCheckSession,
+        isSuccess: isSuccessCheckSession,
+        data: dataCheckSession
+    } = useCheckSession()
 
     useEffect(()=>{
         if (errorLogin !== undefined && errorLogin !== null){
@@ -34,7 +41,7 @@ function App() {
 
     useEffect(()=>{
         if (isSuccessLogin === true){
-            navigate("/assistant");
+            refetchCheckSession()
         }
     }, [isSuccessLogin])
 
@@ -45,17 +52,10 @@ function App() {
         e.preventDefault()
         mutateLogin({username, password})
     }
-    const setSession = (valid) => {
-        if (valid) {
-
-        } else {
-
-        }
-    }
 
     const LoginForm = (
             <>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="card">
                     <label>Username:<br />
                     <input 
                         type="text"
@@ -80,21 +80,17 @@ function App() {
     )
 
     const loginOptions = () => {
-        if (isErrorSS) {
-            return <p>The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>
-        }
-        if (isLoadingSS) {
-            return <p>Waiting for the server...</p>
-        }
-        return LoginForm
+
     };
 
     return (
         <>
             <Header />
-            <div className="card">
-                {loginOptions()}
-            </div>
+            {isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
+            {isErrorCheckSession && <Navbar data={{ permissions: [] }}/>}
+            {isLoadingSS && <p className="card warn">Waiting for the server...</p>}
+            {isErrorSS && <p className="card warn">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
+            {isSuccessSS && isErrorCheckSession && LoginForm }
             <div className="disclaimer card">
                     I host this app on a local machine so both the Embeddings and LLM 
                     servers might not always be up and running or they could be locked 

@@ -53,6 +53,13 @@ select, textarea {
     width: 90%;
 }
 
+nav a {
+    padding: 8px;
+}
+nav a.active {
+    padding: 8px;
+    text-decoration: none;
+}
 .disclaimer {
     font-size: 14px;
     background: #ededed;

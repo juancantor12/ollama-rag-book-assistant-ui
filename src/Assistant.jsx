@@ -7,9 +7,13 @@ import Spinner from './Utils/Spinner.jsx'
 import QuestionBox from './Chat/QuestionBox.jsx'
 import Answer from './Chat/Answer.jsx'
 import { useAsk } from "./Api/Api.jsx"
+import Navbar from './Utils/Navbar.jsx'
 
 function Assistant() {
-    useCheckSession()
+    const {
+        isSuccess: isSuccessCheckSession,
+        data: dataCheckSession
+    } = useCheckSession(true)
     const [page, setPage] = useState(1)
     const [message, setMessage] = useState("")
     const [askedQuestion, setAskedQuestion] = useState("")
@@ -57,6 +61,7 @@ function Assistant() {
     return (
         <>
             <Header />
+            {isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
             <div className="row">
                 <div className="chat-column card">
                     <QuestionBox 

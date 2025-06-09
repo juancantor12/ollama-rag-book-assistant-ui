@@ -1,5 +1,7 @@
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query"
 const apiUrl = import.meta.env.VITE_API_URL
+
+export const queryClient = new QueryClient({})
 
 export const useServerStatus = () => {
     return useQuery({
@@ -38,6 +40,23 @@ export const useLogin = () => {
             localStorage.setItem("session_expiration", data.exp)
             localStorage.setItem("username", data.username)
         },
+    })
+}
+
+export const useLogout = () => {
+    return useQuery({
+        queryKey: ["useLogout"],
+        queryFn: async () => {
+            const response = await fetch(apiUrl + "/logout/", {
+                    credentials: "include"
+                }
+            )
+            if (!response.ok) {
+                throw response.status
+            }
+            return true
+        },
+        enabled: false
     })
 }
 

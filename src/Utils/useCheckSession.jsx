@@ -2,40 +2,43 @@ import { useEffect, useRef } from 'react'
 import { checkSessionApi } from "../Api/Api.jsx"
 import { useNavigate   } from "react-router"
 
-const useCheckSession = () => {
+function useCheckSession ( toHomeIfError = false ) {
     const sessionChecked = useRef(false);
     let navigate = useNavigate()
     const {
-        refetch: fetchCheckSession,
-        isError: isErrorCheckSession,
-        isSuccess: isSuccessCheckSession,
-        data: dataCheckSession
+        refetch,
+        isError,
+        isSuccess,
+        data
     } = checkSessionApi()
 
     useEffect(() => {
         if (!sessionChecked.current) {
-            fetchCheckSession()
+            refetch()
             sessionChecked.current = true
         }
     }, []);    
 
     useEffect(()=>{
-        if (isErrorCheckSession === true){
+        if (isError === true){
             localStorage.removeItem("permissions")
             localStorage.removeItem("session_expiration")
             localStorage.removeItem("username")
-            navigate("/")
+            if (toHomeIfError) {
+                navigate("/")
+            }
         }
-    }, [isErrorCheckSession])
+    }, [isError])
 
     useEffect(()=>{
-        if (isSuccessCheckSession === true){
-            localStorage.setItem("permissions", dataCheckSession.permissions)
-            localStorage.setItem("session_expiration", dataCheckSession.session_expiration)
-            localStorage.setItem("username", dataCheckSession.username)
-            navigate("/assistant")
+        if (isSuccess === true){
+            localStorage.setItem("permissions", data.permissions)
+            localStorage.setItem("session_expiration", data.session_expiration)
+            localStorage.setItem("username", data.username)
         }
-    }, [isSuccessCheckSession])
+    }, [isSuccess])
+
+    return {refetch, isError, isSuccess, data}
 }
 
 export default useCheckSession
