@@ -22,7 +22,6 @@ function App() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [invalidCredentialsMsg, setInvalidCredentialsMsg] = useState(false)
-    let navigate = useNavigate()
 
     const {
         refetch: refetchCheckSession,

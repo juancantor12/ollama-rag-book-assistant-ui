@@ -26,7 +26,7 @@ function QuestionBox({
                  <textarea 
                     name="question"
                     className="question-box"
-                    disabled={demo}
+                    disabled={demo || disableButton}
                     value={questionText}
                     onChange={handleChange}
                     rows={3}

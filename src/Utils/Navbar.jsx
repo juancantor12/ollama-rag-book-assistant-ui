@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate, NavLink } from "react-router"
-import { useLogout, queryClient } from "../Api/Api.jsx"
+import { useQueryClient } from '@tanstack/react-query'
+import { useLogout } from "../Api/Api.jsx"
 
 function Navbar ({data}){
+	const queryClient = useQueryClient();
     const {
 		refetch: fetchLogout,
 		isError: isErrorLogout,
@@ -23,9 +25,8 @@ function Navbar ({data}){
 
 	useEffect(()=>{
 		if (isSuccessLogout === true){
-			locations = []
-			queryClient.resetQueries({ queryKey: "useLogout", exact: true })
-			navigate("/?refresh=1")
+			queryClient.clear()
+			navigate("/")
 		}
 	}, [isSuccessLogout])
 

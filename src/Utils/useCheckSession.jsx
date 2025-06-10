@@ -24,7 +24,7 @@ function useCheckSession ( toHomeIfError = false ) {
             localStorage.removeItem("permissions")
             localStorage.removeItem("session_expiration")
             localStorage.removeItem("username")
-            if (toHomeIfError) {
+            if (toHomeIfError && isError) {
                 navigate("/")
             }
         }
