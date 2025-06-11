@@ -95,3 +95,51 @@ export const checkSessionApi = () => {
         enabled: false
     })
 }
+
+export const useLoadBooks = () => {
+    return useQuery({
+        queryKey: ["loadBooks"],
+        queryFn: async (query) => {
+            const response = await fetch(apiUrl + "/load_books/", {
+                method: "GET",
+                credentials: "include",
+            })
+            if (!response.ok) {
+                throw new Error("No active session.")
+            }
+            return response.json()
+        },
+    })
+}
+
+export const useUploadBook = () => {
+    return useMutation({
+        mutationFn: async (formData) => {
+            const response = await fetch(apiUrl + "/upload_book/", {
+                method: "POST",
+                credentials: "include",
+                body: formData,
+            })
+            if (!response.ok) {
+                throw new Error("Unable to upload file.")
+            }
+            return response.json()
+        },
+    })
+}
+
+export const useGenerateEmbeddings = () => {
+    return useMutation({
+        mutationFn: async (book_filename) => {
+            const response = await fetch(apiUrl + "/generate_embeddings/", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify({book_filename}),
+            })
+            if (!response.ok) {
+                throw new Error("Unable to generate embeddings.")
+            }
+            return response.json()
+        },
+    })
+}
