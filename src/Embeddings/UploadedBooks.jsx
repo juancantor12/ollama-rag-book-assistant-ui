@@ -10,30 +10,20 @@ function UploadedBooks ({ _ }) {
         isError: isErrorLoadBooks,
     } = useLoadBooks()
 
-    const {
-        mutate: mutateGenerateEmbeddings,
-        isLoading: isLoadingGenerateEmbeddings,
-        isSuccess: isSuccessGenerateEmbeddings,
-        data: dataGenerateEmbeddings,
-        isError: isErrorGenerateEmbeddings,
-        error: errorGenerateEmbeddings
-    } = useUploadBook()
-
-    useEffect(()=>{
-        if(isSuccessLoadBooks === true){
-            console.log(dataLoadBooks)
-        }
-    }, [isSuccessLoadBooks])
+    const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings();
 
     useEffect(()=>{
         if(isErrorLoadBooks === true){
             setMsg("There was an error loading the uploaded books.")
         }
     }, [isErrorLoadBooks])
+
+    useEffect(()=>{
+        console.log(progress)
+    }, [progress])
     const handleGenerate = (e, book) => {
         e.preventDefault()
-        console.log("generating Embeddings of ", book)
-        // mutateGenerateEmbeddings(book)
+        generateEmbeddings(book)
     }
     const Table = () => {
         return (
@@ -49,7 +39,7 @@ function UploadedBooks ({ _ }) {
                     <tr key={index}>
                       <td>{book.book}</td>
                       <td>{book.embeddings ? "✓" : (
-                        <button onClick={(e)=>handleGenerate(e, book.book)}>Generate</button>
+                        <button onClick={(e)=>handleGenerate(e, book.book)}>{progress}</button>
                         )}
                       </td>
                     </tr>

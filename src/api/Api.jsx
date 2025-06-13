@@ -1,3 +1,4 @@
+import { useEffect, useState, useCallback } from 'react'
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query"
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -128,18 +129,60 @@ export const useUploadBook = () => {
     })
 }
 
+// export const useGenerateEmbeddings = (book_filename) => {
+//     const eventSource = new EventSource(`${apiUrl}/generate_embeddings/`)
+//     eventSource.onmessage = function (event) {
+//         const progressData = event.data.split("/")
+//         setProgress({
+//             currentPage: progressData[0],
+//             totalPages: progressData[1],
+//         })
+//     }
+    
+//     eventSource.onerror = function (error) {
+//         console.error("Error occurred while receiving SSE:", error)
+//         eventSource.close()
+//     }
+//     return () => {
+//       eventSource.close()
+//     }
+// }
+
 export const useGenerateEmbeddings = () => {
-    return useMutation({
-        mutationFn: async (book_filename) => {
-            const response = await fetch(apiUrl + "/generate_embeddings/", {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({book_filename}),
-            })
-            if (!response.ok) {
-                throw new Error("Unable to generate embeddings.")
+    const [progress, setProgress] = useState("...")
+    const [isError, setIsError] = useState(false)
+    const [eventSource, setEventSource] = useState(null)
+    const generateEmbeddings = useCallback((book_filename) => {
+        if (eventSource) {
+            eventSource.close()
+        }
+        const es = new EventSource(`${apiUrl}/generate_embeddings/${book_filename}`, {
+            withCredentials: true
+        })
+        setEventSource(es)
+        es.onmessage = function (event) {
+            const data = JSON.parse(event.data)
+            console.log(data)
+             if (data.progress === "done") {
+                console.log("Embedding generation complete!")
+                es.close()
             }
-            return response.json()
-        },
-    })
+            setProgress(data.progress)
+        }
+        es.onerror = function (error) {
+            console.error("Error occurred while receiving SSE:", error)
+            setIsError(true)
+            es.close()
+        }
+    }, [eventSource])
+
+    useEffect(() => {
+        return () => {
+            if (eventSource) {
+                eventSource.close()
+            }
+        }
+    }, [eventSource])
+
+    return { progress, isError, generateEmbeddings }
 }
