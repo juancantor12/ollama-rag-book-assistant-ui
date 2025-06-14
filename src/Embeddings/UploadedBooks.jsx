@@ -9,7 +9,7 @@ function UploadedBooks ({ _ }) {
         data: dataLoadBooks,
         isError: isErrorLoadBooks,
     } = useLoadBooks()
-
+    // TODO: Progress needs to be an array so each button can be referenced individually 
     const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings();
 
     useEffect(()=>{
