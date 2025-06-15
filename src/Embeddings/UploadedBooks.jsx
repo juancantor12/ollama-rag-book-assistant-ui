@@ -9,29 +9,44 @@ function UploadedBooks ({ _ }) {
         data: dataLoadBooks,
         isError: isErrorLoadBooks,
     } = useLoadBooks()
-
-    const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings();
-
     useEffect(()=>{
         if(isErrorLoadBooks === true){
             setMsg("There was an error loading the uploaded books.")
         }
     }, [isErrorLoadBooks])
 
-    useEffect(()=>{
-        console.log(progress)
-    }, [progress])
-    const handleGenerate = (e, book) => {
-        e.preventDefault()
-        generateEmbeddings(book)
+    const GenerateEmbeddingsButton = ({ book }) => {
+        const [done, setDone] = useState(false)
+        const [generating, setGenerating] = useState(false)
+        const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings()
+        const handleGenerate = (e, book) => {
+            e.preventDefault()
+            setGenerating(true)
+            setDone(false)
+            generateEmbeddings(book)
+        }
+        useEffect(()=>{
+            if (progress === "done"){
+                setDone(true)
+                setGenerating(false)
+            } else {
+                setDone(false)
+            }
+        }, [progress])
+        return (
+            done ? "✓" : (
+                generating ? <span>{progress}</span> : <button onClick={(e) => handleGenerate(e, book)} >Generate</button>
+            )
+        )
     }
+
     const Table = () => {
         return (
             <table border="1" cellPadding="10">
                 <thead>
                     <tr>
-                        <th width="100%">Book</th>
-                        <th>Embeddings DB</th>
+                        <th width="80%">Book</th>
+                        <th width="20%">Embeddings DB</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +54,7 @@ function UploadedBooks ({ _ }) {
                     <tr key={index}>
                       <td>{book.book}</td>
                       <td>{book.embeddings ? "✓" : (
-                        <button onClick={(e)=>handleGenerate(e, book.book)}>{progress}</button>
+                            <GenerateEmbeddingsButton book={book.book}/>
                         )}
                       </td>
                     </tr>

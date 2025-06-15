@@ -129,27 +129,8 @@ export const useUploadBook = () => {
     })
 }
 
-// export const useGenerateEmbeddings = (book_filename) => {
-//     const eventSource = new EventSource(`${apiUrl}/generate_embeddings/`)
-//     eventSource.onmessage = function (event) {
-//         const progressData = event.data.split("/")
-//         setProgress({
-//             currentPage: progressData[0],
-//             totalPages: progressData[1],
-//         })
-//     }
-    
-//     eventSource.onerror = function (error) {
-//         console.error("Error occurred while receiving SSE:", error)
-//         eventSource.close()
-//     }
-//     return () => {
-//       eventSource.close()
-//     }
-// }
-
 export const useGenerateEmbeddings = () => {
-    const [progress, setProgress] = useState("...")
+    const [progress, setProgress] = useState("Generate")
     const [isError, setIsError] = useState(false)
     const [eventSource, setEventSource] = useState(null)
     const generateEmbeddings = useCallback((book_filename) => {
@@ -162,7 +143,6 @@ export const useGenerateEmbeddings = () => {
         setEventSource(es)
         es.onmessage = function (event) {
             const data = JSON.parse(event.data)
-            console.log(data)
              if (data.progress === "done") {
                 console.log("Embedding generation complete!")
                 es.close()
