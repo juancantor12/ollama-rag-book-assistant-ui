@@ -166,3 +166,60 @@ export const useGenerateEmbeddings = () => {
 
     return { progress, isError, generateEmbeddings }
 }
+
+export const useLoadUsers = () => {
+    return useMutation({
+        mutationFn: async (query) => {
+            const response = await fetch(apiUrl + "/admin/users/list", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body:  JSON.stringify(query),
+            })
+            if (!response.ok) {
+                throw new Error("Unable to load users.")
+            }
+            return response.json()
+        },
+    })
+}
+
+export const useLoadRoles = () => {
+    return useMutation({
+        mutationFn: async (query) => {
+            const response = await fetch(apiUrl + "/admin/roles/list", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body:  JSON.stringify(query),
+            })
+            if (!response.ok) {
+                throw new Error("Unable to load Roles.")
+            }
+            return response.json()
+        },
+    })
+}
+
+export const useLoadPermissions = () => {
+    return useMutation({
+        mutationFn: async (query) => {
+            const response = await fetch(apiUrl + "/admin/permissions/list", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body:  JSON.stringify(query),
+            })
+            if (!response.ok) {
+                throw new Error("Unable to load Permissions.")
+            }
+            return response.json()
+        },
+    })
+}
