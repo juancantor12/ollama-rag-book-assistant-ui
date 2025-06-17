@@ -223,3 +223,22 @@ export const useLoadPermissions = () => {
         },
     })
 }
+
+export const useLoadSchema = () => {
+    return useMutation({
+        mutationFn: async (model_name) => {
+            const response = await fetch(apiUrl + "/admin/get_schema", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body:  JSON.stringify({ model_name }),
+            })
+            if (!response.ok) {
+                throw new Error("Unable to load Schema.")
+            }
+            return response.json()
+        },
+    })
+}

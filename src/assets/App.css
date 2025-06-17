@@ -140,6 +140,7 @@ button {
     background-color: white;
     color: black;
     border: 2px solid #555555;
+    display: block !important;
 }
 
 button:hover {
@@ -153,7 +154,7 @@ button:disabled {
     color: #cccccc;
 }
 
-input {
+input, select {
     margin-top: 5px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
@@ -182,4 +183,18 @@ table tbody td {
     color: #333;
     padding: 10px;
     text-shadow: 1px 1px 1px #fff;
+}
+label {
+    display: inline;
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+    vertical-align: center;
+}
+form {
+    display: flex;
+    width: 70%;
+}
+span {
+    margin-left: 15px;
 }

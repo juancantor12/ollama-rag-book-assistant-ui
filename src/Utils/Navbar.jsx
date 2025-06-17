@@ -11,7 +11,7 @@ function Navbar ({data}){
 		isSuccess: isSuccessLogout
 	} = useLogout()
 	let navigate = useNavigate()
-	const excludedPaths = ["check_session", "generate_embeddings", "load_books"]
+	const excludedPaths = ["check_session", "generate_embeddings", "load_books", "get_schema"]
 	const availablePaths = data.permissions.filter(path => !excludedPaths.includes(path));
 	let locations = availablePaths.map( (permission, index) => 
 	        <NavLink to={"/"+permission} key={index+1}>
