@@ -51,7 +51,7 @@ function Demo() {
     const questionSelect = (
         <div className="card-inn">
             Select a predefined question:
-            <select onChange={(e) => setSelectedQuestionId(e.target.value)}>{predefinedQuestionsLi}</select>
+            <select onChange={(e) => setSelectedQuestionId(e.target.value) } style={{width: "90%"}} >{predefinedQuestionsLi}</select>
         </div>
     )
 

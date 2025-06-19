@@ -50,7 +50,6 @@ a {
 select, textarea {
     margin-top: 5px;
     margin-bottom: 5px;
-    width: 90%;
 }
 
 nav a {
@@ -127,8 +126,13 @@ nav a.active {
 
 .go-to-input input[type="text"] {
     width: 18ch;
-    margin-left: 8px;
+    margin-left: 15px;
     margin-right: 8px;
+}
+input[type="checkbox"]{
+    transform: scale(1.5);
+    margin-left: 20px;
+    margin-top: 15px;
 }
 
 button {
@@ -191,7 +195,7 @@ label {
     padding-right: 15px;
     vertical-align: center;
 }
-form {
+.form {
     display: flex;
     width: 70%;
 }

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-
-function List({ data }) {
+import { Capitalize } from '../Utils/Tools.jsx'
+function List({ model, data }) {
 
     let columns = []
     if (data.length > 0){
@@ -25,6 +24,8 @@ function List({ data }) {
                     {theadCols.map((item, index) => (
                         <th key={index}>{item}</th>
                     ))}
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
         )
@@ -42,16 +43,21 @@ function List({ data }) {
                             )
                             }</td>
                         ))}
+                        <td><button>E</button></td>
+                        <td><button>D</button></td>
                     </tr>
                 ))}
             </tbody>
         )
     }
     return (
-        <table border="1" cellPadding="10">
-            <Thead />
-            <Tbody />
-        </table>
+        <div className="card">
+            <h5>List {Capitalize(model)}</h5>
+            <table border="1" cellPadding="10">
+                <Thead />
+                <Tbody />
+            </table>
+        </div>
     )
 }
 

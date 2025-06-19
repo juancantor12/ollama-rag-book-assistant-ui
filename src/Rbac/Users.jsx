@@ -1,34 +1,38 @@
-import { useEffect } from 'react'
-import { useLoadSchema, useLoadUsers } from '../Api/Api.jsx'
+import { useState, useEffect } from 'react'
+import { useLoadSchema, useLoadUsers, useLoadRoles } from '../Api/Api.jsx'
 import List from '../CRUD/List.jsx'
+import Add from '../CRUD/Add.jsx'
 
 function Users () {
 	const {
         mutate: mutateLoadSchema,
-        isLoading: isLoadingLoadSchema,
         isSuccess: isSuccessLoadSchema,
         data: dataLoadSchema,
-        isError: isErrorLoadSchema,
     } = useLoadSchema()
 
     const {
         mutate: mutateLoadUsers,
-        isLoading: isLoadingLoadUsers,
         isSuccess: isSuccessLoadUsers,
         data: dataLoadUsers,
-        isError: isErrorLoadUsers,
     } = useLoadUsers()
+
+    const {
+        mutate: mutateLoadRoles,
+        isSuccess: isSuccessLoadRoles,
+        data: dataLoadRoles,
+    } = useLoadRoles()
 
     useEffect(()=>{
         mutateLoadSchema("user")
         mutateLoadUsers({limit: 10, offset: 0})
+        mutateLoadRoles({limit: 1000, offset: 0})
     }, [])
 
     return (
         <div>
-            {isLoadingLoadUsers && <div className="card">Loading users..</div>}
-            {isErrorLoadUsers && <div className="card warn">Error loading users..</div>}
-            {isSuccessLoadUsers && <List data={dataLoadUsers} />}
+            {isSuccessLoadSchema && isSuccessLoadRoles && <Add model="users" schema={dataLoadSchema} options={{role_id: dataLoadRoles}} />}
+            {isSuccessLoadUsers && <List model="users" data={dataLoadUsers} />}
+
         </div>
     )
 }
