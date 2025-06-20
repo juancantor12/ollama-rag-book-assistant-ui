@@ -164,8 +164,14 @@ input, select {
     border: 1px solid #ccc;
     padding: 8px 20px;
 }
-.warn {
+.war {
     background-color: #f7e5b2;
+}
+.suc {
+    background-color: #b4faca;
+}
+.err {
+    background-color: #fac3be;
 }
 
 table {

@@ -3,6 +3,11 @@ import { useQuery, useMutation, QueryClient } from "@tanstack/react-query"
 const apiUrl = import.meta.env.VITE_API_URL
 
 export const queryClient = new QueryClient({})
+export const paths = {
+    user: {
+        create: "/admin/users/create"
+    }
+}
 
 export const useServerStatus = () => {
     return useQuery({
@@ -237,6 +242,25 @@ export const useLoadSchema = () => {
             })
             if (!response.ok) {
                 throw new Error("Unable to load Schema.")
+            }
+            return response.json()
+        },
+    })
+}
+
+export const usePost = () => {
+    return useMutation({
+        mutationFn: async ({path, data}) => {
+            const response = await fetch(apiUrl + path, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(data),
+            })
+            if (!response.ok) {
+                throw response.status
             }
             return response.json()
         },

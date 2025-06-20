@@ -58,7 +58,7 @@ function UploadBookForm ({ _ }) {
                 <button disabled={disabled} required onClick={(e) => handleUpload(e)}>Upload Book</button>
             </div>
             {isSuccessUploadBook && <div className="card disclaimer">{msg}</div>}
-            {isErrorUploadBook || formError && <div className="card warn">{msg}</div>}
+            {isErrorUploadBook || formError && <div className="card err">{msg}</div>}
         </>
     )
 }

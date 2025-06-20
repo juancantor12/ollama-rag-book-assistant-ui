@@ -72,7 +72,7 @@ function App() {
                 <button type="submit">Login</button>
                 <br />
                 {errorLogin && (
-                    <div className="card warn">Invalid credentials</div>
+                    <div className="card war">Invalid credentials</div>
                 )}
                 </form>
             </>
@@ -87,8 +87,8 @@ function App() {
             <Header />
             {isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
             {isErrorCheckSession && <Navbar data={{ permissions: [] }}/>}
-            {isLoadingSS && <p className="card warn">Waiting for the server...</p>}
-            {isErrorSS && <p className="card warn">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
+            {isLoadingSS && <p className="card war">Waiting for the server...</p>}
+            {isErrorSS && <p className="card war">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
             {isSuccessSS && isErrorCheckSession && LoginForm }
             <div className="disclaimer card">
                     I host this app on a local machine so both the Embeddings and LLM 

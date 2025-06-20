@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useLoadSchema, useLoadUsers, useLoadRoles } from '../Api/Api.jsx'
+import { useLoadSchema, useLoadUsers, useLoadRoles, usePost, paths } from '../Api/Api.jsx'
 import List from '../CRUD/List.jsx'
 import Add from '../CRUD/Add.jsx'
 
@@ -30,7 +30,19 @@ function Users () {
 
     return (
         <div>
-            {isSuccessLoadSchema && isSuccessLoadRoles && <Add model="users" schema={dataLoadSchema} options={{role_id: dataLoadRoles}} />}
+            {
+                isSuccessLoadSchema &&
+                isSuccessLoadRoles &&
+                <Add 
+                    model="users"
+                    schema={dataLoadSchema}
+                    options={{role_id: dataLoadRoles}} 
+                    saveHook={usePost}
+                    path={paths.user.create}
+                    postSuccessHook={mutateLoadUsers}
+                    postSuccessHookParams={{limit: 10, offset: 0}}
+                />
+            }
             {isSuccessLoadUsers && <List model="users" data={dataLoadUsers} />}
 
         </div>

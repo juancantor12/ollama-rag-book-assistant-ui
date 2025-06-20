@@ -37,7 +37,7 @@ function Navbar ({data}){
 				{locations}
 				{availablePaths.length > 0 && <NavLink to={"/logout"} onClick={(e)=> {handleLogout(e)}} key={availablePaths.length}>Logout</NavLink>}
 			</nav>
-			{isErrorLogout && <div className="card warn">The logout service failed...</div>}
+			{isErrorLogout && <div className="card err">The logout service failed...</div>}
 		</>
 	)
 }

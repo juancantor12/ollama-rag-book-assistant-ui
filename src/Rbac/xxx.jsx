@@ -114,7 +114,7 @@ function Users () {
         <>
             <h4>Users</h4>
             {isSuccessLoadUsers && <Table />}
-            {isErrorLoadUsers && <div className="card warn">{msg}</div>}
+            {isErrorLoadUsers && <div className="card err">{msg}</div>}
             <SaveUser />
         </>
     )

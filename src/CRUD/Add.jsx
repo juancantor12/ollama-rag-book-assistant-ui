@@ -1,19 +1,44 @@
 import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
+import { paths} from '../Api/Api.jsx'
 
-function Add({ model, schema, options }) {
+function Add({ model, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
+    const {
+        mutate: mutatePost,
+        isSuccess: isSuccessPost,
+        isError: isErrorPost,
+        data: dataPost,
+    } = saveHook()
+
     const emptyForm = schema.reduce((accumulator, column)=>{
         if (column.name !== "idx"){
             accumulator[column.name] = column.type === 'BOOLEAN' ? false : ''
         }
         return accumulator
     }, {})
+
     const [formData, setFormData] = useState(emptyForm)
+    const [msg, setMsg] = useState("")
+    
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formData)
-        setFormData(emptyForm)
+        mutatePost({path, data: [formData]})
     }
+    
+    useEffect(()=>{
+        if (isSuccessPost === true){
+            setFormData(emptyForm)
+            setMsg(Capitalize(model)+" saved.")
+            postSuccessHook(postSuccessHookParams)
+        }
+    }, [isSuccessPost])
+
+    useEffect(()=>{
+        if (isErrorPost === true){
+            setMsg("Unable to save.")
+        }
+    }, [isErrorPost])
+
     const handleChange = (e) => {
             const { name, type, checked, value } = e.target
             setFormData({
@@ -69,6 +94,8 @@ function Add({ model, schema, options }) {
                 }
                 </div>
                 <button>Save</button>
+                {isErrorPost && !isSuccessPost && <div className="card err">{msg}</div>}
+                {!isErrorPost && isSuccessPost && <div className="card suc">{msg}</div>}
             </form>
         </div>
     )
