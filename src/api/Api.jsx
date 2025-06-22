@@ -5,7 +5,8 @@ const apiUrl = import.meta.env.VITE_API_URL
 export const queryClient = new QueryClient({})
 export const paths = {
     user: {
-        create: "/admin/users/create"
+        create: "/admin/users/create",
+        delete: "/admin/users/delete"
     }
 }
 

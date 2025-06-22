@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
-function List({ model, data }) {
+function List({ model, setMsg, data, deletex }) {
 
     let columns = []
     if (data.length > 0){
@@ -16,6 +17,30 @@ function List({ model, data }) {
             let str = String(columns[i][0]).toUpperCase() + String(columns[i]).slice(1)
             theadCols.push(str.replaceAll("_", " "))
         }
+    }
+    const {
+        mutate: mutateDelete,
+        isSuccess: isSuccessDelete,
+        isError: isErrorDelete,
+        data: dataDelete,
+    } = deletex.hook()
+
+    useEffect(()=>{
+        if (isSuccessDelete === true){
+            setMsg({class:"suc", text: Capitalize(model)+" deleted."})
+            deletex.postDelete(deletex.postDeleteParams)
+        }
+    }, [isSuccessDelete])
+
+    useEffect(()=>{
+        if (isErrorDelete === true){
+            setMsg({class:"err", text: "Unable to delete"})
+        }
+    }, [isErrorDelete])
+
+    const handleDelete = (e, idx) => {
+        e.preventDefault()
+        mutateDelete({path: deletex.path, data: [idx]})
     }
     const Thead = () => {
         return (
@@ -44,7 +69,7 @@ function List({ model, data }) {
                             }</td>
                         ))}
                         <td><button>E</button></td>
-                        <td><button>D</button></td>
+                        <td><button onClick={(e) => handleDelete(e, item.idx)}>D</button></td>
                     </tr>
                 ))}
             </tbody>
@@ -52,7 +77,7 @@ function List({ model, data }) {
     }
     return (
         <div className="card">
-            <h5>List {Capitalize(model)}</h5>
+            <h5>List {Capitalize(model)+"s."}</h5>
             <table border="1" cellPadding="10">
                 <Thead />
                 <Tbody />

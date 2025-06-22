@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
 import { paths} from '../Api/Api.jsx'
 
-function Add({ model, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
+function Add({ model, setMsg, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
     const {
         mutate: mutatePost,
         isSuccess: isSuccessPost,
@@ -18,7 +18,6 @@ function Add({ model, schema, options, saveHook, path, postSuccessHook, postSucc
     }, {})
 
     const [formData, setFormData] = useState(emptyForm)
-    const [msg, setMsg] = useState("")
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -28,14 +27,14 @@ function Add({ model, schema, options, saveHook, path, postSuccessHook, postSucc
     useEffect(()=>{
         if (isSuccessPost === true){
             setFormData(emptyForm)
-            setMsg(Capitalize(model)+" saved.")
+            setMsg({class:"suc", text: Capitalize(model)+" saved."})
             postSuccessHook(postSuccessHookParams)
         }
     }, [isSuccessPost])
 
     useEffect(()=>{
         if (isErrorPost === true){
-            setMsg("Unable to save.")
+            setMsg({class:"err", text: "Unable to save."})
         }
     }, [isErrorPost])
 
@@ -51,7 +50,7 @@ function Add({ model, schema, options, saveHook, path, postSuccessHook, postSucc
     }
     return (
         <div className="card">
-            <h5>Add {Capitalize(model)}</h5>
+            <h5>Add a {Capitalize(model)}</h5>
             <form onSubmit={handleSubmit}>
                 <div className="form">
                     {schema.map((column, index) => {
@@ -94,8 +93,6 @@ function Add({ model, schema, options, saveHook, path, postSuccessHook, postSucc
                 }
                 </div>
                 <button>Save</button>
-                {isErrorPost && !isSuccessPost && <div className="card err">{msg}</div>}
-                {!isErrorPost && isSuccessPost && <div className="card suc">{msg}</div>}
             </form>
         </div>
     )

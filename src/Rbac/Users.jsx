@@ -4,6 +4,7 @@ import List from '../CRUD/List.jsx'
 import Add from '../CRUD/Add.jsx'
 
 function Users () {
+    const [msg, setMsg] = useState({class: "", text: ""})
 	const {
         mutate: mutateLoadSchema,
         isSuccess: isSuccessLoadSchema,
@@ -30,11 +31,13 @@ function Users () {
 
     return (
         <div>
+            {(msg.text !== "") && <div className={"card "+msg.class}>{msg.text}</div>}
             {
                 isSuccessLoadSchema &&
                 isSuccessLoadRoles &&
                 <Add 
-                    model="users"
+                    model="user"
+                    setMsg={setMsg}
                     schema={dataLoadSchema}
                     options={{role_id: dataLoadRoles}} 
                     saveHook={usePost}
@@ -43,7 +46,18 @@ function Users () {
                     postSuccessHookParams={{limit: 10, offset: 0}}
                 />
             }
-            {isSuccessLoadUsers && <List model="users" data={dataLoadUsers} />}
+            {isSuccessLoadUsers &&
+                <List 
+                    model="user"
+                    setMsg={setMsg}
+                    data={dataLoadUsers}
+                    deletex={{
+                        hook: usePost, 
+                        postDelete: mutateLoadUsers,
+                        postDeleteParams: {limit: 10, offset: 0},
+                        path: paths.user.delete
+                    }}
+                />}
 
         </div>
     )
