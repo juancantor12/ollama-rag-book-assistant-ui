@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
 import { paths} from '../Api/Api.jsx'
 
-function Add({ model, setMsg, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
+function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
     const {
         mutate: mutatePost,
         isSuccess: isSuccessPost,
@@ -50,7 +50,7 @@ function Add({ model, setMsg, schema, options, saveHook, path, postSuccessHook, 
     }
     return (
         <div className="card">
-            <h5>Add a {Capitalize(model)}</h5>
+            <h5>Create a {Capitalize(model)}</h5>
             <form onSubmit={handleSubmit}>
                 <div className="form">
                     {schema.map((column, index) => {
@@ -98,4 +98,4 @@ function Add({ model, setMsg, schema, options, saveHook, path, postSuccessHook, 
     )
 }
 
-export default Add
+export default Create

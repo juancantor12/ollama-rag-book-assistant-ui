@@ -41,6 +41,9 @@ body {
     .pdf-column {
         width: 90%;
     }
+    .popup-content{
+        width: 80%;
+    }
 }
 
 a {
@@ -144,7 +147,7 @@ button {
     background-color: white;
     color: black;
     border: 2px solid #555555;
-    display: block !important;
+    display: block;
 }
 
 button:hover {
@@ -207,4 +210,29 @@ label {
 }
 span {
     margin-left: 15px;
+}
+
+.popup-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+}
+.buttons-container {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
 }

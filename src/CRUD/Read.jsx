@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
-function List({ model, setMsg, data, deletex }) {
+function Read({ model, setMsg, data, deletex, handleEdit }) {
 
     let columns = []
     if (data.length > 0){
@@ -42,6 +42,7 @@ function List({ model, setMsg, data, deletex }) {
         e.preventDefault()
         mutateDelete({path: deletex.path, data: [idx]})
     }
+
     const Thead = () => {
         return (
             <thead>
@@ -68,7 +69,7 @@ function List({ model, setMsg, data, deletex }) {
                             )
                             }</td>
                         ))}
-                        <td><button>E</button></td>
+                        <td><button onClick={(e) => handleEdit(e, item)}>E</button></td>
                         <td><button onClick={(e) => handleDelete(e, item.idx)}>D</button></td>
                     </tr>
                 ))}
@@ -86,4 +87,4 @@ function List({ model, setMsg, data, deletex }) {
     )
 }
 
-export default List
+export default Read
