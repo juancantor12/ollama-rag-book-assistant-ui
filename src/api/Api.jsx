@@ -6,6 +6,7 @@ export const queryClient = new QueryClient({})
 export const paths = {
     user: {
         create: "/admin/users/create",
+        update: "/admin/users/update",
         delete: "/admin/users/delete"
     }
 }

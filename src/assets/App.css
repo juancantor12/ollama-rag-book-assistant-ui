@@ -164,6 +164,7 @@ button:disabled {
 input, select {
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 15px;
     border: 1px solid #ccc;
     padding: 8px 20px;
 }

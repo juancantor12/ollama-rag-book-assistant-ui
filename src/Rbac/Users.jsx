@@ -48,7 +48,7 @@ function Users () {
                             data={editData}
                             options={{role_id: dataLoadRoles}} 
                             updateHook={usePost}
-                            path={paths.user.create}
+                            path={paths.user.update}
                             postSuccessHook={mutateLoadUsers}
                             postSuccessHookParams={{limit: 10, offset: 0}}
                             setDisplayEditPopup={setDisplayEditPopup}

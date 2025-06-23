@@ -10,14 +10,14 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
         data: dataPost,
     } = saveHook()
 
-    const emptyForm = schema.reduce((accumulator, column)=>{
+    const initialForm = schema.reduce((accumulator, column)=>{
         if (column.name !== "idx"){
             accumulator[column.name] = column.type === 'BOOLEAN' ? false : ''
         }
         return accumulator
     }, {})
 
-    const [formData, setFormData] = useState(emptyForm)
+    const [formData, setFormData] = useState(initialForm)
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -26,7 +26,7 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
     
     useEffect(()=>{
         if (isSuccessPost === true){
-            setFormData(emptyForm)
+            setFormData(initialForm)
             setMsg({class:"suc", text: Capitalize(model)+" saved."})
             postSuccessHook(postSuccessHookParams)
         }
@@ -52,7 +52,7 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
         <div className="card">
             <h5>Create a {Capitalize(model)}</h5>
             <form onSubmit={handleSubmit}>
-                <div className="form">
+                <div className="form ">
                     {schema.map((column, index) => {
                         if (column.primary_key === true || column.autoincrement === true) return null
                         if (column.name.includes("_id")){
