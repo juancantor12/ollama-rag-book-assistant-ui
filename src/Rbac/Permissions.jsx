@@ -4,32 +4,25 @@ import Create from '../CRUD/Create.jsx'
 import Read from '../CRUD/Read.jsx'
 import Update from '../CRUD/Update.jsx'
 
-function Users () {
+function Permissions () {
     const [msg, setMsg] = useState({class: "", text: ""})
     const [displayEditPopUp, setDisplayEditPopup] = useState(false)
     const [editData, setEditData] = useState({})
-	const {
+    const {
         mutate: mutateLoadSchema,
         isSuccess: isSuccessLoadSchema,
         data: dataLoadSchema,
     } = usePost()
 
     const {
-        mutate: mutateLoadUsers,
-        isSuccess: isSuccessLoadUsers,
-        data: dataLoadUsers,
-    } = usePost()
-
-    const {
-        mutate: mutateLoadRoles,
-        isSuccess: isSuccessLoadRoles,
-        data: dataLoadRoles,
+        mutate: mutateLoadPermissions,
+        isSuccess: isSuccessLoadPermissions,
+        data: dataLoadPermissions,
     } = usePost()
 
     useEffect(()=>{
-        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "user"}})
-        mutateLoadUsers({path: paths.user.read, data:{limit: 10, offset: 0}})
-        mutateLoadRoles({path: paths.role.read, data:{limit: 1000, offset: 0}})
+        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "permission"}})
+        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}})
     }, [])
 
     const handleEdit = (e, item) => {
@@ -38,7 +31,7 @@ function Users () {
         setDisplayEditPopup(true)
     }
     const postSuccessHook = () => {
-        mutateLoadUsers({path: paths.user.read, data:{limit: 10, offset: 0}})
+        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}})
     }
     return (
         <>
@@ -46,13 +39,13 @@ function Users () {
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <Update 
-                            model="user"
+                            model="permission"
                             setMsg={setMsg}
                             schema={dataLoadSchema}
                             data={editData}
-                            options={{role_id: dataLoadRoles}} 
+                            options={null} 
                             updateHook={usePost}
-                            path={paths.user.update}
+                            path={paths.permission.update}
                             postSuccessHook={postSuccessHook}
                             setDisplayEditPopup={setDisplayEditPopup}
                         />
@@ -63,24 +56,23 @@ function Users () {
                 {(msg.text !== "") && <div className={"card "+msg.class}>{msg.text}</div>}
                 {    
                     isSuccessLoadSchema &&
-                    isSuccessLoadRoles &&
                     <Create 
-                        model="user"
+                        model="permission"
                         setMsg={setMsg}
                         schema={dataLoadSchema}
-                        options={{role_id: dataLoadRoles}} 
+                        options={null} 
                         saveHook={usePost}
-                        path={paths.user.create}
+                        path={paths.permission.create}
                         postSuccessHook={postSuccessHook}
                     />
                 }
-                {isSuccessLoadUsers &&
+                {isSuccessLoadPermissions &&
                     <Read 
-                        model="user"
+                        model="permission"
                         setMsg={setMsg}
-                        data={dataLoadUsers}
+                        data={dataLoadPermissions}
                         deleteHook={usePost} 
-                        path={paths.user.delete}
+                        path={paths.permission.delete}
                         postSuccessHook={postSuccessHook}
                         handleEdit={handleEdit}
                     />}
@@ -89,4 +81,4 @@ function Users () {
         </>
     )
 }
-export default Users
+export default Permissions

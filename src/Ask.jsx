@@ -4,12 +4,13 @@ import useCheckSession from './Utils/useCheckSession.jsx'
 import Header from './Utils/Header.jsx'
 import PDFViewer from './Utils/PDFViewer.jsx'
 import Spinner from './Utils/Spinner.jsx'
+import SelectBook from './Chat/SelectBook.jsx'
 import QuestionBox from './Chat/QuestionBox.jsx'
 import Answer from './Chat/Answer.jsx'
 import { useAsk } from "./Api/Api.jsx"
 import Navbar from './Utils/Navbar.jsx'
 
-function Assistant() {
+function Ask() {
     const {
         isSuccess: isSuccessCheckSession,
         data: dataCheckSession
@@ -20,6 +21,7 @@ function Assistant() {
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
     const [disableButton, setDisableButton] = useState(false)
+    const [book, setBook] = useState("")    // TODO: Do something with this to change the current displayed book
     const sessionChecked = useRef(false);
     const spinnerRef = useRef();
     const {
@@ -62,6 +64,7 @@ function Assistant() {
         <>
             <Header />
             {isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
+            <SelectBook setBook={setBook}/>
             <div className="row">
                 <div className="chat-column card">
                     <QuestionBox 
@@ -89,4 +92,4 @@ function Assistant() {
     )
 }
 
-export default Assistant
+export default Ask

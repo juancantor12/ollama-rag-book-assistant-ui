@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
-import { paths} from '../Api/Api.jsx'
 
 function Update({ 
     model,
@@ -11,7 +10,6 @@ function Update({
     updateHook,
     path,
     postSuccessHook,
-    postSuccessHookParams,
     setDisplayEditPopup
 }){
     const {
@@ -22,7 +20,11 @@ function Update({
     } = updateHook()
 
     const initialForm = schema.reduce((accumulator, column)=>{
-        accumulator[column.name] = (data[column.name] === undefined) ? '' : data[column.name]
+        if (column.type === "RELATIONSHIP" && column.direction === "MANYTOMANY" && options !== null) {
+            accumulator[column.name] = data[column.name].map((option) => (option.idx.toString()))
+        } else {
+            accumulator[column.name] = (data[column.name] === undefined) ? '' : data[column.name] 
+        }
         return accumulator
     }, {})
 
@@ -48,7 +50,7 @@ function Update({
         if (isSuccessPost === true){
             setDisplayEditPopup(false)
             setMsg({class:"suc", text: Capitalize(model)+" updated."})
-            postSuccessHook(postSuccessHookParams)
+            postSuccessHook()
         }
     }, [isSuccessPost])
 
@@ -99,7 +101,7 @@ function Update({
                                     </select>
                                 </div>       
                             )
-                        } else {
+                        } else if (column.type !== "RELATIONSHIP") {
                             return (
                                 <div key={index}>
                                     <label>{Capitalize(column.name)}</label>
@@ -112,6 +114,42 @@ function Update({
                                         {...(column.type !== 'BOOLEAN' && { value: formData[column.name] })}
                                     />
                                 </div>
+                            )
+                        } else if (column.type === "RELATIONSHIP" && column.direction === "MANYTOMANY" && options!== null) {
+                            return (
+                                <fieldset key={index}>
+                                    <legend>{Capitalize(column.name)}:</legend>
+                                    {options[column.name].map((option, index2)=> {
+                                        const isChecked = formData[column.name]?.includes(option.idx.toString())
+                                        return (
+                                            <label key={index2}>
+                                                <input
+                                                    type="checkbox"
+                                                    name={column.name}
+                                                    value={option.idx.toString()}
+                                                    checked={isChecked}
+                                                    onChange={(e) => {
+                                                        const { value, checked } = e.target
+                                                        const newPermissions = [...formData[column.name]]
+                                                        if (checked) {
+                                                            newPermissions.push(value)
+                                                        } else {
+                                                            const index = newPermissions.indexOf(value)
+                                                            if (index > -1) {
+                                                                newPermissions.splice(index, 1)
+                                                            }
+                                                        }
+                                                        setFormData({
+                                                            ...formData,
+                                                            [column.name]: newPermissions,
+                                                        })
+                                                    }}
+                                                />
+                                                &nbsp;{option.name}
+                                            </label>
+                                        )
+                                    })}
+                                </fieldset>
                             )
                         }
                     })

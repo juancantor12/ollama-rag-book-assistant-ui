@@ -4,10 +4,25 @@ const apiUrl = import.meta.env.VITE_API_URL
 
 export const queryClient = new QueryClient({})
 export const paths = {
+    loadSchema: "/admin/get_schema",
     user: {
         create: "/admin/users/create",
+        read: "/admin/users/list",
         update: "/admin/users/update",
-        delete: "/admin/users/delete"
+        delete: "/admin/users/delete",
+    },
+    permission: {
+        create: "/admin/permissions/create",
+        read: "/admin/permissions/list",
+        update: "/admin/permissions/update",
+        delete: "/admin/permissions/delete"
+    }
+    ,
+    role: {
+        create: "/admin/roles/create",
+        read: "/admin/roles/list",
+        update: "/admin/roles/update",
+        delete: "/admin/roles/delete"
     }
 }
 
@@ -174,81 +189,63 @@ export const useGenerateEmbeddings = () => {
     return { progress, isError, generateEmbeddings }
 }
 
-export const useLoadUsers = () => {
-    return useMutation({
-        mutationFn: async (query) => {
-            const response = await fetch(apiUrl + "/admin/users/list", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body:  JSON.stringify(query),
-            })
-            if (!response.ok) {
-                throw new Error("Unable to load users.")
-            }
-            return response.json()
-        },
-    })
-}
 
-export const useLoadRoles = () => {
-    return useMutation({
-        mutationFn: async (query) => {
-            const response = await fetch(apiUrl + "/admin/roles/list", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body:  JSON.stringify(query),
-            })
-            if (!response.ok) {
-                throw new Error("Unable to load Roles.")
-            }
-            return response.json()
-        },
-    })
-}
+// export const useLoadRoles = () => {
+//     return useMutation({
+//         mutationFn: async (query) => {
+//             const response = await fetch(apiUrl + "/admin/roles/list", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json"
+//                 },
+//                 credentials: "include",
+//                 body:  JSON.stringify(query),
+//             })
+//             if (!response.ok) {
+//                 throw new Error("Unable to load Roles.")
+//             }
+//             return response.json()
+//         },
+//     })
+// }
 
-export const useLoadPermissions = () => {
-    return useMutation({
-        mutationFn: async (query) => {
-            const response = await fetch(apiUrl + "/admin/permissions/list", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body:  JSON.stringify(query),
-            })
-            if (!response.ok) {
-                throw new Error("Unable to load Permissions.")
-            }
-            return response.json()
-        },
-    })
-}
+// export const useLoadPermissions = () => {
+//     return useMutation({
+//         mutationFn: async (query) => {
+//             const response = await fetch(apiUrl + "/admin/permissions/list", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json"
+//                 },
+//                 credentials: "include",
+//                 body:  JSON.stringify(query),
+//             })
+//             if (!response.ok) {
+//                 throw new Error("Unable to load Permissions.")
+//             }
+//             return response.json()
+//         },
+//     })
+// }
 
-export const useLoadSchema = () => {
-    return useMutation({
-        mutationFn: async (model_name) => {
-            const response = await fetch(apiUrl + "/admin/get_schema", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body:  JSON.stringify({ model_name }),
-            })
-            if (!response.ok) {
-                throw new Error("Unable to load Schema.")
-            }
-            return response.json()
-        },
-    })
-}
+// export const useLoadSchema = () => {
+//     return useMutation({
+//         mutationFn: async (model_name) => {
+//             const response = await fetch(apiUrl + "/admin/get_schema", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json"
+//                 },
+//                 credentials: "include",
+//                 body:  JSON.stringify({ model_name }),
+//             })
+//             if (!response.ok) {
+//                 throw new Error("Unable to load Schema.")
+//             }
+//             return response.json()
+//         },
+//     })
+// }
 
 export const usePost = () => {
     return useMutation({

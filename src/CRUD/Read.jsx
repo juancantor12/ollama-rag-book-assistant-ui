@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
-function Read({ model, setMsg, data, deletex, handleEdit }) {
+function Read({ model, setMsg, data, deleteHook, path, postSuccessHook, handleEdit }) {
 
     let columns = []
     if (data.length > 0){
@@ -8,7 +8,6 @@ function Read({ model, setMsg, data, deletex, handleEdit }) {
             columns.push(property)
         }    
     }
-
     const theadCols = []
     const tbodyCols = []
     for (let i=0; i < columns.length; i++){
@@ -23,12 +22,12 @@ function Read({ model, setMsg, data, deletex, handleEdit }) {
         isSuccess: isSuccessDelete,
         isError: isErrorDelete,
         data: dataDelete,
-    } = deletex.hook()
+    } = deleteHook()
 
     useEffect(()=>{
         if (isSuccessDelete === true){
             setMsg({class:"suc", text: Capitalize(model)+" deleted."})
-            deletex.postDelete(deletex.postDeleteParams)
+            postSuccessHook()
         }
     }, [isSuccessDelete])
 
@@ -40,7 +39,7 @@ function Read({ model, setMsg, data, deletex, handleEdit }) {
 
     const handleDelete = (e, idx) => {
         e.preventDefault()
-        mutateDelete({path: deletex.path, data: [idx]})
+        mutateDelete({path, data: [idx]})
     }
 
     const Thead = () => {
@@ -65,7 +64,8 @@ function Read({ model, setMsg, data, deletex, handleEdit }) {
                         {tbodyCols.map((col, index2)=>(
                             <td key={index2}>{(
                                 typeof item[col] === 'boolean' ? (item[col] ? 'Yes' : 'No') : 
-                                typeof item[col] !== 'object' ? item[col] : item[col].name
+                                    typeof item[col] !== 'object' ? item[col] : 
+                                        Array.isArray(item[col]) ? item[col].map(child => child.name).join(', ') : item[col].name
                             )
                             }</td>
                         ))}

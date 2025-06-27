@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Capitalize } from '../Utils/Tools.jsx'
 import { paths} from '../Api/Api.jsx'
 
-function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHook, postSuccessHookParams }) {
+function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHook }) {
     const {
         mutate: mutatePost,
         isSuccess: isSuccessPost,
@@ -12,7 +12,13 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
 
     const initialForm = schema.reduce((accumulator, column)=>{
         if (column.name !== "idx"){
-            accumulator[column.name] = column.type === 'BOOLEAN' ? false : ''
+            if (column.type === "BOOLEAN") {
+                accumulator[column.name] = false
+            } else if (column.type === "RELATIONSHIP" && column.direction === "MANYTOMANY") {
+                accumulator[column.name] = []
+            } else {
+                accumulator[column.name] = ''
+            }
         }
         return accumulator
     }, {})
@@ -28,7 +34,7 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
         if (isSuccessPost === true){
             setFormData(initialForm)
             setMsg({class:"suc", text: Capitalize(model)+" saved."})
-            postSuccessHook(postSuccessHookParams)
+            postSuccessHook()
         }
     }, [isSuccessPost])
 
@@ -74,7 +80,7 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
                                     </select>
                                 </div>       
                             )
-                        } else {
+                        } else if (column.type !== "RELATIONSHIP") {
                             return (
                                 <div key={index}>
                                     <label>{Capitalize(column.name)}</label>
@@ -87,6 +93,42 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
                                         {...(column.type !== 'BOOLEAN' && { value: formData[column.name] })}
                                     />
                                 </div>
+                            )
+                        } else if (column.type === "RELATIONSHIP" && column.direction === "MANYTOMANY" && options!== null) {
+                            return (
+                                <fieldset key={index}>
+                                    <legend>{Capitalize(column.name)}:</legend>
+                                    {options[column.name].map((option, index2)=> {
+                                        const isChecked = formData[column.name]?.includes(option.idx.toString())
+                                        return (
+                                            <label key={index2}>
+                                                <input
+                                                    type="checkbox"
+                                                    name={column.name}
+                                                    value={option.idx.toString()}
+                                                    checked={isChecked}
+                                                    onChange={(e) => {
+                                                        const { value, checked } = e.target
+                                                        const newPermissions = [...formData[column.name]]
+                                                        if (checked) {
+                                                            newPermissions.push(value)
+                                                        } else {
+                                                            const index = newPermissions.indexOf(value)
+                                                            if (index > -1) {
+                                                                newPermissions.splice(index, 1)
+                                                            }
+                                                        }
+                                                        setFormData({
+                                                            ...formData,
+                                                            [column.name]: newPermissions,
+                                                        })
+                                                    }}
+                                                />
+                                                &nbsp;{option.name}
+                                            </label>
+                                        )
+                                    })}
+                                </fieldset>
                             )
                         }
                     })

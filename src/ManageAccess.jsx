@@ -2,10 +2,10 @@ import Header from './Utils/Header.jsx'
 import Navbar from './Utils/Navbar.jsx'
 import useCheckSession from './Utils/useCheckSession.jsx'
 import Users from './Rbac/Users.jsx'
-// import Roles from './Rbac/Roles/List.jsx'
-// import Permissions from './Rbac/Permissions/List.jsx'
+import Roles from './Rbac/Roles.jsx'
+import Permissions from './Rbac/Permissions.jsx'
 
-function UploadBook () {
+function ManageAccess () {
 	const nfData = {
 		permissions: []
 	}
@@ -21,16 +21,19 @@ function UploadBook () {
 			{isErrorCheckSession && <Navbar data={nfData}/>}
 			{isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
 			<div className="card">
+				<h2>Users</h2>
 				<Users />
 			</div>
-			{/*<div className="card">
-				<Roles />
+			<div className="card">
+				<h2>Permissions</h2>
+				<Permissions />
 			</div>
 			<div className="card">
-				<Permissions />
-			</div>*/}
+				<h2>Roles</h2>
+				<Roles />
+			</div>
 		</>
 	)
 }
 
-export default UploadBook
+export default ManageAccess
