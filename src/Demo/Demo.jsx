@@ -4,6 +4,7 @@ import PDFViewer from '../Utils/PDFViewer.jsx'
 import Spinner from '../Utils/Spinner.jsx'
 import QuestionBox from '../Chat/QuestionBox.jsx'
 import Answer from '../Chat/Answer.jsx'
+import demoPdf from '../assets/iama4.pdf'
 
 function Demo() {
     const [page, setPage] = useState(1)
@@ -14,6 +15,7 @@ function Demo() {
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
     const spinnerRef = useRef();
+    const [questionText, setQuestionText] = useState("")
 
     useEffect(() => {
         setSelectedQuestionText(demoQuestions[selectedQuestionId].text)
@@ -69,6 +71,8 @@ function Demo() {
                         selectedQuestionText={selectedQuestionText}
                         demo={true}
                         setAskedQuestion={setAskedQuestion}
+                        questionText={questionText}
+                        setQuestionText={setQuestionText}
                     />
                     <div className="disclaimer card small">
                         <Spinner ref={spinnerRef} />&nbsp;{message}
@@ -76,7 +80,8 @@ function Demo() {
                     <Answer llmResponse={llmResponse} setPage={setPage}/>
                 </div>
                 <div className="pdf-column">
-                    <PDFViewer 
+                    <PDFViewer
+                        file={demoPdf}
                         page={page}
                         setPage={setPage}
                         llmResponse={llmResponse}

@@ -83,6 +83,14 @@ export const useLogout = () => {
     })
 }
 
+export const getPdf = async (book) => {
+    const response = await fetch(`${apiUrl}/data/${book}`)
+    if (!response.ok) {
+        throw new Error("Failed to fetch PDF")
+    }
+    const blob = await response.blob()
+    return blob
+}
 export const useAsk = () => {
     return useMutation({
         mutationFn: async (query) => {
@@ -188,64 +196,6 @@ export const useGenerateEmbeddings = () => {
 
     return { progress, isError, generateEmbeddings }
 }
-
-
-// export const useLoadRoles = () => {
-//     return useMutation({
-//         mutationFn: async (query) => {
-//             const response = await fetch(apiUrl + "/admin/roles/list", {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 credentials: "include",
-//                 body:  JSON.stringify(query),
-//             })
-//             if (!response.ok) {
-//                 throw new Error("Unable to load Roles.")
-//             }
-//             return response.json()
-//         },
-//     })
-// }
-
-// export const useLoadPermissions = () => {
-//     return useMutation({
-//         mutationFn: async (query) => {
-//             const response = await fetch(apiUrl + "/admin/permissions/list", {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 credentials: "include",
-//                 body:  JSON.stringify(query),
-//             })
-//             if (!response.ok) {
-//                 throw new Error("Unable to load Permissions.")
-//             }
-//             return response.json()
-//         },
-//     })
-// }
-
-// export const useLoadSchema = () => {
-//     return useMutation({
-//         mutationFn: async (model_name) => {
-//             const response = await fetch(apiUrl + "/admin/get_schema", {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 credentials: "include",
-//                 body:  JSON.stringify({ model_name }),
-//             })
-//             if (!response.ok) {
-//                 throw new Error("Unable to load Schema.")
-//             }
-//             return response.json()
-//         },
-//     })
-// }
 
 export const usePost = () => {
     return useMutation({

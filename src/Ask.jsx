@@ -16,12 +16,13 @@ function Ask() {
         data: dataCheckSession
     } = useCheckSession(true)
     const [page, setPage] = useState(1)
+    const [questionText, setQuestionText] = useState("")
     const [message, setMessage] = useState("")
     const [askedQuestion, setAskedQuestion] = useState("")
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
-    const [disableButton, setDisableButton] = useState(false)
-    const [book, setBook] = useState("")    // TODO: Do something with this to change the current displayed book
+    const [disableButton, setDisableButton] = useState(true)
+    const [book, setBook] = useState({filename: "", pdf: null})
     const sessionChecked = useRef(false);
     const spinnerRef = useRef();
     const {
@@ -57,8 +58,17 @@ function Ask() {
         spinnerRef.current.start();
         setMessage("Recollecting relevant documents and asking the LLM...")
         setDisableButton(true)
-        mutateAsk({book_filename: "iama4.pdf", question: askedQuestion})
+        mutateAsk({book_filename: book.filename, question: askedQuestion})
     }, [askedQuestion])
+
+    useEffect(() => {
+        if (book.filename !== ""){
+            setDisableButton(false)
+            setPage(1)
+            setQuestionText("")
+            setllmResponse(demoQuestions[0])
+        }
+    }, [book])
 
     return (
         <>
@@ -72,6 +82,8 @@ function Ask() {
                         demo={false}
                         setAskedQuestion={setAskedQuestion}
                         disableButton={disableButton}
+                        questionText={questionText}
+                        setQuestionText={setQuestionText}
                     />
                     <div className="disclaimer card small">
                         <Spinner ref={spinnerRef} />&nbsp;{message}
@@ -80,9 +92,10 @@ function Ask() {
                 </div>
                 <div className="pdf-column">
                     <PDFViewer 
+                        file={book.pdf}
                         page={page}
                         setPage={setPage}
-                        llmResponse={llmResponse}
+                        // llmResponse={llmResponse}
                         searchText={searchText}
                         setSearchText={setSearchText}
                     />

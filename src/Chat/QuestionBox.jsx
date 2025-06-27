@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 
 function QuestionBox({
-    selectedQuestionText = "", demo = false, setAskedQuestion, disableButton
+    selectedQuestionText = "", demo = false, setAskedQuestion, disableButton, questionText, setQuestionText
 }) {
-    const [questionText, setQuestionText] = useState("");
     useEffect(() => {
         if (demo) {
             setQuestionText(selectedQuestionText);

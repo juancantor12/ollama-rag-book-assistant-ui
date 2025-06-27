@@ -1,9 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import { pdfjs, Document, Page } from 'react-pdf'
-import demoPdf from '../assets/iama4.pdf'
 import 'react-pdf/dist/Page/TextLayer.css';
 
-function PDFViewer({ page, setPage, llmResponse, searchText, setSearchText}) {
+function PDFViewer({ file, page, setPage, searchText, setSearchText}) {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
         'pdfjs-dist/build/pdf.worker.min.mjs',
         import.meta.url,
@@ -33,7 +32,7 @@ function PDFViewer({ page, setPage, llmResponse, searchText, setSearchText}) {
     );
     return (
         <>
-            <Document file={demoPdf} onLoadSuccess={onDocumentLoadSuccess}>
+            <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
                 <Page 
                     pageNumber={page}
                     height={1100}
