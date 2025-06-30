@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, NavLink } from "react-router"
 import { useQueryClient } from '@tanstack/react-query'
 import { useLogout } from "../Api/Api.jsx"
+const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 function Navbar ({data}){
 	const queryClient = useQueryClient();
@@ -14,7 +15,7 @@ function Navbar ({data}){
 	const excludedPaths = ["check_session", "generate_embeddings", "load_books", "get_schema"]
 	const availablePaths = data.permissions.filter(path => !excludedPaths.includes(path));
 	let locations = availablePaths.map( (permission, index) => 
-	        <NavLink to={"/"+permission} key={index+1}>
+	        <NavLink to={base+"/"+permission} key={index+1}>
 	        	{permission.charAt(0).toUpperCase() + permission.slice(1).replace(/_/g, ' ')}
 	        </NavLink>
     )
@@ -26,16 +27,16 @@ function Navbar ({data}){
 	useEffect(()=>{
 		if (isSuccessLogout === true){
 			queryClient.clear()
-			navigate("/")
+			navigate(base+"/")
 		}
 	}, [isSuccessLogout])
 
 	return (
 		<>
 			<nav className="card">
-				<NavLink to={"/"} key={0}>Home</NavLink>
+				<NavLink to={base+"/"} key={0}>Home</NavLink>
 				{locations}
-				{availablePaths.length > 0 && <NavLink to={"/logout"} onClick={(e)=> {handleLogout(e)}} key={availablePaths.length}>Logout</NavLink>}
+				{availablePaths.length > 0 && <NavLink to={base+"/logout"} onClick={(e)=> {handleLogout(e)}} key={availablePaths.length}>Logout</NavLink>}
 			</nav>
 			{isErrorLogout && <div className="card err">The logout service failed...</div>}
 		</>

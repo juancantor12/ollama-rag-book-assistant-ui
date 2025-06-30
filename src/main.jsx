@@ -7,6 +7,7 @@ import Ask from './Ask.jsx'
 import UploadBook from './UploadBook.jsx'
 import ManageAccess from './ManageAccess.jsx'
 import NotFound from './Utils/NotFound.jsx'
+const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 const queryClient = new QueryClient()
 
@@ -15,11 +16,11 @@ createRoot(document.getElementById('root')).render(
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>  
-                    <Route path="/" element={<App />} />
-                    <Route path="/ask" element={<Ask />} />
-                    <Route path="/upload_book" element={<UploadBook />} />
-                    <Route path="/manage_access" element={<ManageAccess />} />
-                    <Route path="*" element={<NotFound />} />
+                    <Route path={base+"/"} element={<App />} />
+                    <Route path={base+"/ask"} element={<Ask />} />
+                    <Route path={base+"/upload_book"} element={<UploadBook />} />
+                    <Route path={base+"/manage_access"} element={<ManageAccess />} />
+                    <Route path={base+"*"} element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </QueryClientProvider>

@@ -36,9 +36,9 @@ export const useServerStatus = () => {
             }
             return response.json()
         },
-        retry: 2,
+        retry: 1,
         refetchOnWindowFocus: false,
-        retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 30000)
+        retryDelay: (attempt) => Math.min(1000 * 1 ** attempt, 30000)
     })
 }
 
