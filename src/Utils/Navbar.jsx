@@ -34,9 +34,9 @@ function Navbar ({data}){
 	return (
 		<>
 			<nav className="card">
-				<NavLink to={base+"/"} key={0}>Home</NavLink>
+				<NavLink className="nav" to={base+"/"} key={0}>Home</NavLink>
 				{locations}
-				{availablePaths.length > 0 && <NavLink to={base+"/logout"} onClick={(e)=> {handleLogout(e)}} key={availablePaths.length}>Logout</NavLink>}
+				{availablePaths.length > 0 && <NavLink className="nav" to={base+"/logout"} onClick={(e)=> {handleLogout(e)}} key={availablePaths.length}>Logout</NavLink>}
 			</nav>
 			{isErrorLogout && <div className="card err">The logout service failed...</div>}
 		</>

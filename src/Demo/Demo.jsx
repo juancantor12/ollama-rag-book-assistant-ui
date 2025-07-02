@@ -52,6 +52,11 @@ function Demo() {
     )
     const questionSelect = (
         <div className="card-inn">
+            <div className="card disclaimer">
+                    On this demo you might choose a predefined question on a specific book, 
+                    on the real app of course you can choose/provide the book and ask your
+                    own question, the result will look like this:
+                </div>
             Select a predefined question:
             <select onChange={(e) => setSelectedQuestionId(e.target.value) } style={{width: "90%"}} >{predefinedQuestionsLi}</select>
         </div>
@@ -59,14 +64,9 @@ function Demo() {
 
     return (
         <>
-            <div className="card disclaimer">
-                On this demo you might choose a predefined question on a specific book, 
-                on the real app of course you can choose/provide the book and ask your
-                own question, the result will look like this:
-            </div>
+            {questionSelect}
             <div className="row">
                 <div className="chat-column card">
-                    {questionSelect}
                     <QuestionBox 
                         selectedQuestionText={selectedQuestionText}
                         demo={true}

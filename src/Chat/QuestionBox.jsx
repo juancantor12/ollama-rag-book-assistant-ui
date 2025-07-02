@@ -28,7 +28,7 @@ function QuestionBox({
                     disabled={demo || disableButton}
                     value={questionText}
                     onChange={handleChange}
-                    rows={3}
+                    rows={4}
                     cols={40}
                 />
                 <br />
