@@ -26,18 +26,19 @@ export const paths = {
     }
 }
 
-export const useServerStatus = () => {
+export const useGet = ({path, retries=0}) => {
     return useQuery({
-        queryKey: ["serverStatus"],
+        queryKey: ["useGet"],
+        enabled: false,
         queryFn: async () => {
-            const response = await fetch(apiUrl + "/status/")
+            console.log(apiUrl+path)
+            const response = await fetch(apiUrl + path)
             if (!response.ok) {
-                throw new Error("Server is down")
+                throw new Error("Unable to fetch")
             }
             return response.json()
         },
-        retry: 1,
-        refetchOnWindowFocus: false,
+        retry: retries,
         retryDelay: (attempt) => Math.min(1000 * 1 ** attempt, 30000)
     })
 }
@@ -113,7 +114,7 @@ export const useAsk = () => {
 export const checkSessionApi = () => {
     return useQuery({
         queryKey: ["checkSession"],
-        queryFn: async (query) => {
+        queryFn: async () => {
             const response = await fetch(apiUrl + "/check_session/", {
                 method: "GET",
                 credentials: "include",

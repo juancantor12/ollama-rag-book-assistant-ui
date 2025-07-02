@@ -2,16 +2,18 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from "react-router"
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
-import { useServerStatus, useLogin } from "./Api/Api.jsx"
+import { useLogin, useGet } from "./Api/Api.jsx"
 import useCheckSession from './Utils/useCheckSession.jsx'
 import Navbar from './Utils/Navbar.jsx'
 
 function App() {
     const {
-        isLoading: isLoadingSS,
-        isError: isErrorSS,
-        isSuccess: isSuccessSS
-    } = useServerStatus()
+        refetch: refetchServerStatus,
+        isLoading: isLoadingServerStatus,
+        isError: isErrorServerStatus,
+        isSuccess: isSuccessServerStatus
+    } = useGet({path: "/status/", retries: 1})
+
     const {
         mutate: mutateLogin,
         isSuccess: isSuccessLogin,
@@ -28,6 +30,10 @@ function App() {
         isSuccess: isSuccessCheckSession,
         data: dataCheckSession
     } = useCheckSession()
+
+    useEffect(()=>{
+        refetchServerStatus()
+    }, [])
 
     useEffect(()=>{
         if (errorLogin !== undefined && errorLogin !== null){
@@ -86,9 +92,9 @@ function App() {
             <Header />
             {isSuccessCheckSession && <Navbar data={dataCheckSession}/>}
             {isErrorCheckSession && <Navbar data={{ permissions: [] }}/>}
-            {isLoadingSS && <p className="card war">Waiting for the server...</p>}
-            {isErrorSS && <p className="card war">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
-            {isSuccessSS && isErrorCheckSession && LoginForm }
+            {isLoadingServerStatus && <p className="card war">Waiting for the server...</p>}
+            {isErrorServerStatus && <p className="card war">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
+            {isSuccessServerStatus && isErrorCheckSession && LoginForm }
             <h3>What is this app about.</h3>
             <div className="card">
                  This application allows the user to provide a large book in PDF 
