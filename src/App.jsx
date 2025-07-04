@@ -82,11 +82,6 @@ function App() {
                 </form>
             </>
     )
-
-    const loginOptions = () => {
-
-    };
-
     return (
         <>
             <Header />
@@ -129,9 +124,6 @@ function App() {
             </div>
             <h3> Demo</h3>
             <Demo />
-            {/*<div id="demo">
-                <Demo />
-            </div>*/}
         </>
     )
 }

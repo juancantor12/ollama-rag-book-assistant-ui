@@ -26,15 +26,18 @@ export const paths = {
     }
 }
 
-export const useGet = ({path, retries=0}) => {
+export const useGet = ({path, retries = 0, credentials = false }) => {
     return useQuery({
-        queryKey: ["useGet"],
+        queryKey: [path],
         enabled: false,
         queryFn: async () => {
-            console.log(apiUrl+path)
+            const fetchOptions = {
+                method: 'GET',
+                ...(credentials && { credentials: 'include' })
+            }
             const response = await fetch(apiUrl + path)
             if (!response.ok) {
-                throw new Error("Unable to fetch")
+                throw response.status
             }
             return response.json()
         },
