@@ -7,7 +7,7 @@ import Spinner from './Utils/Spinner.jsx'
 import SelectBook from './Chat/SelectBook.jsx'
 import QuestionBox from './Chat/QuestionBox.jsx'
 import Answer from './Chat/Answer.jsx'
-import { useAsk } from "./Api/Api.jsx"
+import { usePost } from "./Api/Api.jsx"
 import Navbar from './Utils/Navbar.jsx'
 
 function Ask() {
@@ -32,7 +32,7 @@ function Ask() {
         data: dataAsk,
         isError: isErrorAsk,
         error: errorAsk
-    } = useAsk()
+    } = usePost()
 
     useEffect(() => {
         if (llmResponse.references.length > 0) {
@@ -58,7 +58,14 @@ function Ask() {
         spinnerRef.current.start();
         setMessage("Recollecting relevant documents and asking the LLM...")
         setDisableButton(true)
-        mutateAsk({book_filename: book.filename, question: askedQuestion})
+        mutateAsk({
+            path: "/ask/",
+            data: {
+                book_filename: book.filename,
+                question: askedQuestion
+            },
+            credentials: true
+        })
     }, [askedQuestion])
 
     useEffect(() => {

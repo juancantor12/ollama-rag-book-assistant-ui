@@ -46,7 +46,6 @@ function App() {
 
     useEffect(()=>{
         if (isSuccessLogin === true){
-            console.log(dataLogin)
             localStorage.setItem("permissions", dataLogin.permissions)
             localStorage.setItem("session_expiration", dataLogin.exp)
             localStorage.setItem("username", dataLogin.username)

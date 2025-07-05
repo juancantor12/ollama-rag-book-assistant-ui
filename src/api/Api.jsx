@@ -72,24 +72,6 @@ export const getPdf = async (book) => {
     const blob = await response.blob()
     return blob
 }
-export const useAsk = () => {
-    return useMutation({
-        mutationFn: async (query) => {
-            const response = await fetch(apiUrl + "/ask/", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(query),
-            })
-            if (!response.ok) {
-                throw new Error("Server is down")
-            }
-            return response.json()
-        },
-    })
-}
 
 export const checkSessionApi = () => {
     return useQuery({
