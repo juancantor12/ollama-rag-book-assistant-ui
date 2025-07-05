@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from "react-router"
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
-import { useLogin, useGet } from "./Api/Api.jsx"
+import { useGet, usePost, paths } from "./Api/Api.jsx"
 import useCheckSession from './Utils/useCheckSession.jsx'
 import Navbar from './Utils/Navbar.jsx'
 
@@ -16,9 +16,10 @@ function App() {
 
     const {
         mutate: mutateLogin,
+        data: dataLogin,
         isSuccess: isSuccessLogin,
         error: errorLogin
-    } = useLogin()
+    } = usePost()
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -45,6 +46,10 @@ function App() {
 
     useEffect(()=>{
         if (isSuccessLogin === true){
+            console.log(dataLogin)
+            localStorage.setItem("permissions", dataLogin.permissions)
+            localStorage.setItem("session_expiration", dataLogin.exp)
+            localStorage.setItem("username", dataLogin.username)
             refetchCheckSession()
         }
     }, [isSuccessLogin])
@@ -54,7 +59,8 @@ function App() {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        mutateLogin({username, password})
+        // mutateLogin({username, password})
+        mutateLogin({path: paths.login, data:{username, password}, credentials: true})
     }
 
     const LoginForm = (

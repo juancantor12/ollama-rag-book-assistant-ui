@@ -27,9 +27,9 @@ function Roles () {
     } = usePost()
 
     useEffect(()=>{
-        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "role"}})
-        mutateLoadRoles({path: paths.role.read, data:{limit: 10, offset: 0}})
-        mutateLoadPermissions({path: paths.permission.read, data:{limit: 1000, offset: 0}})
+        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "role"}, credentials: true})
+        mutateLoadRoles({path: paths.role.read, data:{limit: 10, offset: 0}, credentials: true})
+        mutateLoadPermissions({path: paths.permission.read, data:{limit: 1000, offset: 0}, credentials: true})
     }, [])
 
     const handleEdit = (e, item) => {

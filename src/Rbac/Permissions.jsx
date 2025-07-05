@@ -21,8 +21,8 @@ function Permissions () {
     } = usePost()
 
     useEffect(()=>{
-        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "permission"}})
-        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}})
+        mutateLoadSchema({path: paths.loadSchema, data: {model_name: "permission"}, credentials: true})
+        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}, credentials: true})
     }, [])
 
     const handleEdit = (e, item) => {

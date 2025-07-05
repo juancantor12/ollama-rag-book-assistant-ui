@@ -5,6 +5,7 @@ const apiUrl = import.meta.env.VITE_API_URL
 export const queryClient = new QueryClient({})
 export const paths = {
     loadSchema: "/admin/get_schema",
+    login: "/login/",
     user: {
         create: "/admin/users/create",
         read: "/admin/users/list",
@@ -43,30 +44,6 @@ export const useGet = ({path, retries = 0, credentials = false }) => {
         },
         retry: retries,
         retryDelay: (attempt) => Math.min(1000 * 1 ** attempt, 30000)
-    })
-}
-
-export const useLogin = () => {
-    return useMutation({
-        mutationFn: async (credentials) => {
-            const response = await fetch(apiUrl + "/login/", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(credentials),
-            })
-            if (!response.ok) {
-                throw response.status
-            }
-            return response.json()
-        },
-        onSuccess: (data) => {
-            localStorage.setItem("permissions", data.permissions)
-            localStorage.setItem("session_expiration", data.exp)
-            localStorage.setItem("username", data.username)
-        },
     })
 }
 
@@ -203,15 +180,16 @@ export const useGenerateEmbeddings = () => {
 
 export const usePost = () => {
     return useMutation({
-        mutationFn: async ({path, data}) => {
-            const response = await fetch(apiUrl + path, {
-                method: "POST",
+        mutationFn: async ({path, data, credentials = false}) => {
+            const options = {
+                method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
                 },
-                credentials: "include",
                 body: JSON.stringify(data),
-            })
+                ...(credentials && { credentials: 'include' })
+            }
+            const response = await fetch(apiUrl + path, options)
             if (!response.ok) {
                 throw response.status
             }
