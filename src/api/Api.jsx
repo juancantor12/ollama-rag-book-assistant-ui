@@ -36,7 +36,7 @@ export const useGet = ({path, retries = 0, credentials = false }) => {
                 method: 'GET',
                 ...(credentials && { credentials: 'include' })
             }
-            const response = await fetch(apiUrl + path)
+            const response = await fetch(apiUrl + path, fetchOptions)
             if (!response.ok) {
                 throw response.status
             }
@@ -71,23 +71,6 @@ export const getPdf = async (book) => {
     }
     const blob = await response.blob()
     return blob
-}
-
-export const checkSessionApi = () => {
-    return useQuery({
-        queryKey: ["checkSession"],
-        queryFn: async () => {
-            const response = await fetch(apiUrl + "/check_session/", {
-                method: "GET",
-                credentials: "include",
-            })
-            if (!response.ok) {
-                throw new Error("No active session.")
-            }
-            return response.json()
-        },
-        enabled: false
-    })
 }
 
 export const useLoadBooks = () => {

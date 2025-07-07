@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { checkSessionApi } from "../Api/Api.jsx"
+import { useGet } from "../Api/Api.jsx"
 import { useNavigate   } from "react-router"
 
 function useCheckSession ( toHomeIfError = false ) {
@@ -10,7 +10,7 @@ function useCheckSession ( toHomeIfError = false ) {
         isError,
         isSuccess,
         data
-    } = checkSessionApi()
+    } = useGet({path: "/check_session/", credentials: true})
 
     useEffect(() => {
         if (!sessionChecked.current) {
