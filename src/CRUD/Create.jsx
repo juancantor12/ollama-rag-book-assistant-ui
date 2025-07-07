@@ -27,7 +27,7 @@ function Create({ model, setMsg, schema, options, saveHook, path, postSuccessHoo
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        mutatePost({path, data: [formData]})
+        mutatePost({path, data: [formData], credentials: true})
     }
     
     useEffect(()=>{

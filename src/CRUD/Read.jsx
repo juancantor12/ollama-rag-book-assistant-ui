@@ -18,7 +18,7 @@ function Read({ model, setMsg, data, deleteHook, path, postSuccessHook, handleEd
         }
     }
     const {
-        mutate: mutateDelete,
+        mutate: mutatePost,
         isSuccess: isSuccessDelete,
         isError: isErrorDelete,
         data: dataDelete,
@@ -39,7 +39,7 @@ function Read({ model, setMsg, data, deleteHook, path, postSuccessHook, handleEd
 
     const handleDelete = (e, idx) => {
         e.preventDefault()
-        mutateDelete({path, data: [idx]})
+        mutatePost({path, data: [idx], credentials: true})
     }
 
     const Thead = () => {

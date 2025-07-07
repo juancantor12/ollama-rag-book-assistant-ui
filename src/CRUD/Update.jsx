@@ -37,7 +37,7 @@ function Update({
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        mutatePost({path, data: [formData]})
+        mutatePost({path, data: [formData], credentials: true})
     }
 
     const handleCancel = (e) => {

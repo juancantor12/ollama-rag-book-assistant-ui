@@ -38,7 +38,7 @@ function Roles () {
         setDisplayEditPopup(true)
     }
     const postSuccessHook = () => {
-        mutateLoadRoles({path: paths.role.read, data:{limit: 10, offset: 0}})
+        mutateLoadRoles({path: paths.role.read, data:{limit: 10, offset: 0}, credentials: true})
     }
     return (
         <>

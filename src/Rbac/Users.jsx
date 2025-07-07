@@ -38,7 +38,7 @@ function Users () {
         setDisplayEditPopup(true)
     }
     const postSuccessHook = () => {
-        mutateLoadUsers({path: paths.user.read, data:{limit: 10, offset: 0}})
+        mutateLoadUsers({path: paths.user.read, data:{limit: 10, offset: 0}, credentials: true})
     }
     return (
         <>

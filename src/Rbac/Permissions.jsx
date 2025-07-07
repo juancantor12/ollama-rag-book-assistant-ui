@@ -31,7 +31,7 @@ function Permissions () {
         setDisplayEditPopup(true)
     }
     const postSuccessHook = () => {
-        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}})
+        mutateLoadPermissions({path: paths.permission.read, data:{limit: 10, offset: 0}, credentials: true})
     }
     return (
         <>
