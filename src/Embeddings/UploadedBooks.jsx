@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useLoadBooks, useGenerateEmbeddings } from "../Api/Api.jsx"
+import { useGet, useGenerateEmbeddings, paths } from "../Api/Api.jsx"
 
 function UploadedBooks ({ _ }) {
     const [msg, setMsg] = useState('')
@@ -7,13 +7,18 @@ function UploadedBooks ({ _ }) {
         refetch: refetchLoadBooks,
         isSuccess: isSuccessLoadBooks,
         data: dataLoadBooks,
-        isError: isErrorLoadBooks,
-    } = useLoadBooks()
+        isError: isErrorLoadBooks
+    } = useGet({path: paths.books.load, retries: 0, credentials: true })
+
     useEffect(()=>{
         if(isErrorLoadBooks === true){
             setMsg("There was an error loading the uploaded books.")
         }
     }, [isErrorLoadBooks])
+
+    useEffect(()=>{
+        refetchLoadBooks()
+    }, [])
 
     const GenerateEmbeddingsButton = ({ book }) => {
         const [done, setDone] = useState(false)

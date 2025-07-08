@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react'
 import Markdown from 'react-markdown'
-import { getPdf, useLoadBooks } from '../Api/Api.jsx'
+import { getPdf, useGet, paths } from '../Api/Api.jsx'
 
 function SelectBook({setBook}) {
     const books = ["iama4.pdf", "TheEmperorsNewMind.pdf", "TheRoadToReality.pdf"]
     const {
+        refetch: refetchLoadBooks,
         isSuccess: isSuccessLoadBooks,
         data: dataLoadBooks,
-    } = useLoadBooks()
+    } = useGet({path: paths.books.load, retries: 0, credentials: true })
+
+    useEffect(()=>{
+        refetchLoadBooks()
+    }, [])
 
     const handleChange = async (e) => {
         if (e.target.value === ""){

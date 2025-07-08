@@ -6,6 +6,9 @@ export const queryClient = new QueryClient({})
 export const paths = {
     loadSchema: "/admin/get_schema",
     login: "/login/",
+    books: {
+        load: "/load_books/"
+    },
     user: {
         create: "/admin/users/create",
         read: "/admin/users/list",
@@ -71,22 +74,6 @@ export const getPdf = async (book) => {
     }
     const blob = await response.blob()
     return blob
-}
-
-export const useLoadBooks = () => {
-    return useQuery({
-        queryKey: ["loadBooks"],
-        queryFn: async (query) => {
-            const response = await fetch(apiUrl + "/load_books/", {
-                method: "GET",
-                credentials: "include",
-            })
-            if (!response.ok) {
-                throw new Error("No active session.")
-            }
-            return response.json()
-        },
-    })
 }
 
 export const useUploadBook = () => {
