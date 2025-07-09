@@ -7,7 +7,8 @@ export const paths = {
     loadSchema: "/admin/get_schema",
     login: "/login/",
     books: {
-        load: "/load_books/"
+        load: "/load_books/",
+        upload: "/upload_book/"
     },
     user: {
         create: "/admin/users/create",
@@ -50,6 +51,29 @@ export const useGet = ({path, retries = 0, credentials = false }) => {
     })
 }
 
+export const usePost = () => {
+    return useMutation({
+        mutationFn: async ({path, data, credentials = false}, file = null) => {
+            const isFile = data instanceof FormData && data.get("file") !== null
+            const formData = new FormData()
+            if (isFile) {
+                formData.append('file', data.get("file"))
+            }
+            const options = {
+                method: 'POST',
+                body: isFile ? formData : JSON.stringify(data),
+                ...( !isFile && { headers: { "Content-Type": "application/json"} }),
+                ...( credentials && { credentials: 'include' })
+            }
+            const response = await fetch(apiUrl + path, options)
+            if (!response.ok) {
+                throw response.status
+            }
+            return response.json()
+        },
+    })
+}
+
 export const useLogout = () => {
     return useQuery({
         queryKey: ["useLogout"],
@@ -74,22 +98,6 @@ export const getPdf = async (book) => {
     }
     const blob = await response.blob()
     return blob
-}
-
-export const useUploadBook = () => {
-    return useMutation({
-        mutationFn: async (formData) => {
-            const response = await fetch(apiUrl + "/upload_book/", {
-                method: "POST",
-                credentials: "include",
-                body: formData,
-            })
-            if (!response.ok) {
-                throw new Error("Unable to upload file.")
-            }
-            return response.json()
-        },
-    })
 }
 
 export const useGenerateEmbeddings = () => {
@@ -128,24 +136,4 @@ export const useGenerateEmbeddings = () => {
     }, [eventSource])
 
     return { progress, isError, generateEmbeddings }
-}
-
-export const usePost = () => {
-    return useMutation({
-        mutationFn: async ({path, data, credentials = false}) => {
-            const options = {
-                method: 'POST',
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-                ...(credentials && { credentials: 'include' })
-            }
-            const response = await fetch(apiUrl + path, options)
-            if (!response.ok) {
-                throw response.status
-            }
-            return response.json()
-        },
-    })
 }

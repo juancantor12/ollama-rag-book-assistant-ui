@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useUploadBook } from "../Api/Api.jsx"
+import { usePost, paths } from "../Api/Api.jsx"
 
 function UploadBookForm ({ _ }) {
     const [file, setFile] = useState(null)
@@ -18,7 +18,7 @@ function UploadBookForm ({ _ }) {
         data: dataUploadBook,
         isError: isErrorUploadBook,
         error: errorUploadBook
-    } = useUploadBook()
+    } = usePost()
 
     const handleUpload = async (e) => {
         e.preventDefault()
@@ -32,7 +32,8 @@ function UploadBookForm ({ _ }) {
             return
         } else {
             setFormError(false)
-            mutateUploadBook(formData)
+            // mutateUploadBook(formData)
+            mutateUploadBook({path: paths.books.upload, data: formData, credentials: true})
         }
         
     }
