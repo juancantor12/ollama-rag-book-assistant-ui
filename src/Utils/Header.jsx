@@ -1,7 +1,7 @@
 import app_icon from '../assets/ollama_book.png'
 
 function Header() {
-    const username = localStorage.getItem("username");
+    const username = localStorage.getItem("username")
     return (
         <>
             <div>

@@ -23,8 +23,8 @@ function Ask() {
     const [searchText, setSearchText] = useState("")
     const [disableButton, setDisableButton] = useState(true)
     const [book, setBook] = useState({filename: "", pdf: null})
-    const sessionChecked = useRef(false);
-    const spinnerRef = useRef();
+    const sessionChecked = useRef(false)
+    const spinnerRef = useRef()
     const {
         mutate: mutateAsk,
         isLoading: isLoadingAsk,
@@ -55,7 +55,7 @@ function Ask() {
             setMessage("Please provide a question.")
             return
         }
-        spinnerRef.current.start();
+        spinnerRef.current.start()
         setMessage("Recollecting relevant documents and asking the LLM...")
         setDisableButton(true)
         mutateAsk({
@@ -102,7 +102,6 @@ function Ask() {
                         file={book.pdf}
                         page={page}
                         setPage={setPage}
-                        // llmResponse={llmResponse}
                         searchText={searchText}
                         setSearchText={setSearchText}
                     />

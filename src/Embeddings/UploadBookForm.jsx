@@ -32,7 +32,6 @@ function UploadBookForm ({ _ }) {
             return
         } else {
             setFormError(false)
-            // mutateUploadBook(formData)
             mutateUploadBook({path: paths.books.upload, data: formData, credentials: true})
         }
         

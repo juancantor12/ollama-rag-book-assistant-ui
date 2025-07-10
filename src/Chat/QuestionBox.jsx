@@ -5,11 +5,11 @@ function QuestionBox({
 }) {
     useEffect(() => {
         if (demo) {
-            setQuestionText(selectedQuestionText);
+            setQuestionText(selectedQuestionText)
         } else {
             setQuestionText(questionText)
         }
-    }, [demo, selectedQuestionText]);
+    }, [demo, selectedQuestionText])
 
     const answerQuestion = function(e) {
         e.preventDefault()

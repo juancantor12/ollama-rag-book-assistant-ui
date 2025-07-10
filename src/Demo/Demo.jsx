@@ -14,7 +14,7 @@ function Demo() {
     const [askedQuestion, setAskedQuestion] = useState("")
     const [llmResponse, setllmResponse] = useState(demoQuestions[0])
     const [searchText, setSearchText] = useState("")
-    const spinnerRef = useRef();
+    const spinnerRef = useRef()
     const [questionText, setQuestionText] = useState("")
 
     useEffect(() => {
@@ -33,17 +33,16 @@ function Demo() {
             setMessage("Please provide a question.")
             return
         }
-        spinnerRef.current.start();
+        spinnerRef.current.start()
         setMessage("Recollecting relevant documents...")
         setTimeout(function() {
             setMessage("Qerying the LLM with relevant documents...")
             setTimeout(function() {
-                spinnerRef.current.stop();
+                spinnerRef.current.stop()
                 setMessage("Answer successfully retrieved.")
-                // console.log(selectedQuestionId)
                 setllmResponse(demoQuestions[selectedQuestionId])
-             }, 1500); 
-         }, 1000);
+             }, 1500) 
+         }, 1000)
     }, [askedQuestion])
 
     const predefinedQuestionsLi = ( demoQuestions.map( questionObj =>

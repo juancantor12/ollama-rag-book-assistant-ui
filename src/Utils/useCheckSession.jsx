@@ -3,7 +3,7 @@ import { useGet } from "../Api/Api.jsx"
 import { useNavigate   } from "react-router"
 
 function useCheckSession ( toHomeIfError = false ) {
-    const sessionChecked = useRef(false);
+    const sessionChecked = useRef(false)
     let navigate = useNavigate()
     const {
         refetch,
@@ -17,7 +17,7 @@ function useCheckSession ( toHomeIfError = false ) {
             refetch()
             sessionChecked.current = true
         }
-    }, []);    
+    }, [])
 
     useEffect(()=>{
         if (isError === true){

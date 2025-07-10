@@ -17,7 +17,7 @@ const Spinner = forwardRef(({ timer = 100 }, ref) => {
         setIsSpinning(false)
             spinnerRef.current.textContent = "⡷"
         }
-    }));
+    }))
 
     useEffect(() => {
         let interval
@@ -33,7 +33,7 @@ const Spinner = forwardRef(({ timer = 100 }, ref) => {
         } else {
             clearInterval(interval)
         }
-        return () => clearInterval(interval);
+        return () => clearInterval(interval)
     }, [isSpinning, timer])
     return <div className="d-inline" ref={spinnerRef}>{isSpinning ? '⡀' : '⡷'}</div>
 })

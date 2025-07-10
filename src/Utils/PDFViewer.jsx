@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { pdfjs, Document, Page } from 'react-pdf'
-import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css'
 
 function PDFViewer({ file, page, setPage, searchText, setSearchText}) {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -20,16 +20,15 @@ function PDFViewer({ file, page, setPage, searchText, setSearchText}) {
         setGoToValue(value)
     }
     function onDocumentLoadSuccess( {numPages}){
-        setNumPages(numPages);
+        setNumPages(numPages)
     }
 
     const textRenderer = useCallback( (textItem) => {
-            // return textItem.str.replace(searchText, (value) => `<mark>${value}</mark>`)
-            const regex = new RegExp(searchText, 'gi');
-            return textItem.str.replace(regex, (match) => `<mark>${match}</mark>`);
+            const regex = new RegExp(searchText, 'gi')
+            return textItem.str.replace(regex, (match) => `<mark>${match}</mark>`)
         },
         [searchText]
-    );
+    )
     return (
         <>
             <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>

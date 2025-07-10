@@ -58,7 +58,6 @@ function App() {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        // mutateLogin({username, password})
         mutateLogin({path: paths.login, data:{username, password}, credentials: true})
     }
 

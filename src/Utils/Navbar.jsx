@@ -5,7 +5,7 @@ import { useLogout } from "../Api/Api.jsx"
 const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 function Navbar ({data}){
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient()
     const {
 		refetch: fetchLogout,
 		isError: isErrorLogout,
@@ -13,7 +13,7 @@ function Navbar ({data}){
 	} = useLogout()
 	let navigate = useNavigate()
 	const excludedPaths = ["check_session", "generate_embeddings", "load_books", "get_schema"]
-	const availablePaths = data.permissions.filter(path => !excludedPaths.includes(path));
+	const availablePaths = data.permissions.filter(path => !excludedPaths.includes(path))
 	let locations = availablePaths.map( (permission, index) => 
 	        <NavLink to={base+"/"+permission} key={index+1}>
 	        	{permission.charAt(0).toUpperCase() + permission.slice(1).replace(/_/g, ' ')}
