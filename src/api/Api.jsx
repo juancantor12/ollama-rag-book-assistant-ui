@@ -91,10 +91,10 @@ export const useLogout = () => {
     })
 }
 
-export const getPdf = async (book) => {
-    const response = await fetch(`${apiUrl}/data/${book}`)
+export const getFile = async (path) => {
+    const response = await fetch(`${apiUrl}${path}`)
     if (!response.ok) {
-        throw new Error("Failed to fetch PDF")
+        throw new Error("Failed to fetch file")
     }
     const blob = await response.blob()
     return blob

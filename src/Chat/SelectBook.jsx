@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Markdown from 'react-markdown'
-import { getPdf, useGet, paths } from '../Api/Api.jsx'
+import { getFile, useGet, paths } from '../Api/Api.jsx'
 
 function SelectBook({setBook}) {
     const books = ["iama4.pdf", "TheEmperorsNewMind.pdf", "TheRoadToReality.pdf"]
@@ -18,7 +18,7 @@ function SelectBook({setBook}) {
         if (e.target.value === ""){
             return
         }
-        const pdf = await getPdf(e.target.value)
+        const pdf = await getFile(`/data/${e.target.value}`)
         setBook({filename: e.target.value, pdf})
     }
     return (
