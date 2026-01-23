@@ -6,6 +6,7 @@ export const queryClient = new QueryClient({})
 export const paths = {
     loadSchema: "/admin/get_schema",
     login: "/login/",
+    recoverAdmin: "/admin/recover/",
     books: {
         load: "/load_books/",
         upload: "/upload_book/"

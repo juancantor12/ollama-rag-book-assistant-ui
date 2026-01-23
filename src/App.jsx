@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from "react-router"
+import { NavLink } from "react-router"
 import Demo from './Demo/Demo.jsx'
 import Header from './Utils/Header.jsx'
 import { useGet, usePost, paths } from "./Api/Api.jsx"
 import useCheckSession from './Utils/useCheckSession.jsx'
 import Navbar from './Utils/Navbar.jsx'
+
+const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 function App() {
     const {
@@ -79,6 +81,8 @@ function App() {
                     /></label>
                 <br />
                 <button type="submit">Login</button>
+                <br />
+                <NavLink to={base+"/recover_admin"}>Forgot password?</NavLink>
                 <br />
                 {errorLogin && (
                     <div className="card war">Invalid credentials</div>

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import { BrowserRouter, Routes, Route } from "react-router"
 import App from './App.jsx'
 import Ask from './Ask.jsx'
+import Recover from './Recover.jsx'
 import UploadBook from './UploadBook.jsx'
 import ManageAccess from './ManageAccess.jsx'
 import NotFound from './Utils/NotFound.jsx'
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')).render(
             <BrowserRouter>
                 <Routes>  
                     <Route path={base+"/"} element={<App />} />
+                    <Route path={base+"/recover_admin"} element={<Recover />} />
                     <Route path={base+"/ask"} element={<Ask />} />
                     <Route path={base+"/upload_book"} element={<UploadBook />} />
                     <Route path={base+"/manage_access"} element={<ManageAccess />} />

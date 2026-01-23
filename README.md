@@ -84,7 +84,6 @@ npm run deploy
 
 - Enforce RBAC in dynamic CRUD generation (not only in navigation)
 - Finalize styling and responsive behavior
-- Better self-hosted deployment support (HTTPS, CORS, etc.)
 - Dockerized full-stack setup with reverse proxy
 
 ## Contact
