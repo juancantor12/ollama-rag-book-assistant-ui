@@ -108,3 +108,8 @@ export const palettes = [
     ["#040D12", "#183D3D", "#5C8374", "#93B1A6"],
     ["#967E76", "#9BABB8", "#D7C0AE", "#EEE3CB"]
 ]
+
+export const theme1Palettes = [
+    ["#151A1B", "#283034", "#E0E6E3", "#FBFBF7", "#A56CFF", "#0FA3B1", "#F4B942"],
+    ["#151E2B", "#2F4058", "#AAB4C0", "#F6F3EE", "#4E5A72", "#2F6A6F", "#9C7A3A"]
+]

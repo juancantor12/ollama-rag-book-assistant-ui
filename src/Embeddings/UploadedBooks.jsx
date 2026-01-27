@@ -20,7 +20,7 @@ function UploadedBooks ({ _ }) {
         refetchLoadBooks()
     }, [])
 
-    const GenerateEmbeddingsButton = ({ book }) => {
+    const GenerateEmbeddingsButton = ({ book, hasEmbeddings }) => {
         const [done, setDone] = useState(false)
         const [generating, setGenerating] = useState(false)
         const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings()
@@ -38,9 +38,18 @@ function UploadedBooks ({ _ }) {
                 setDone(false)
             }
         }, [progress])
+        const showGenerated = done || hasEmbeddings
         return (
-            done ? "✓" : (
-                generating ? <span>{progress}</span> : <button onClick={(e) => handleGenerate(e, book)} >Generate</button>
+            generating ? (
+                <span>{progress}</span>
+            ) : (
+                showGenerated ? (
+                    <span>
+                        Generated. <button onClick={(e) => handleGenerate(e, book)}>Regenerate</button>
+                    </span>
+                ) : (
+                    <button onClick={(e) => handleGenerate(e, book)}>Generate</button>
+                )
             )
         )
     }
@@ -58,9 +67,11 @@ function UploadedBooks ({ _ }) {
                   {dataLoadBooks.map((book, index) => (
                     <tr key={index}>
                       <td>{book.book}</td>
-                      <td>{book.embeddings ? "✓" : (
-                            <GenerateEmbeddingsButton book={book.book}/>
-                        )}
+                      <td>
+                        <GenerateEmbeddingsButton
+                            book={book.book}
+                            hasEmbeddings={book.embeddings}
+                        />
                       </td>
                     </tr>
                   ))}

@@ -258,8 +258,35 @@ fieldset {
     gap: 10px;
 }
 
+.theme-section {
+    margin: 10px 0 15px;
+}
+
+.theme-title {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.theme-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.theme-option {
+    padding: 8px 12px;
+}
+
+.theme-option.active {
+    border: 2px solid var(--dark);
+}
+
 .palette-preview {
 cursor: pointer;
+}
+
+.palette-preview.active div {
+    outline: 2px solid var(--dark);
 }
 
 .palette-preview div {

@@ -10,6 +10,7 @@ import ManageAccess from './ManageAccess.jsx'
 import NotFound from './Utils/NotFound.jsx'
 import PalettePicker from './Utils/PalettePicker.jsx'
 import './assets/App.css'
+import './assets/theme1.css'
 const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 const queryClient = new QueryClient()
