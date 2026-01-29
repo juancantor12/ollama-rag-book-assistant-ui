@@ -12,12 +12,20 @@
     padding: 0;
 }
 
+html, body {
+    min-height: 100%;
+    background-color: var(--light-medium);
+}
+
 body {
     font-family: Verdana, sans-serif;
     width: 85%;
     margin: 0 auto;
-    background-color: var(--light-medium);
     color: var(--dark);
+}
+
+#root {
+    min-height: 100vh;
 }
 
 .nav {
@@ -69,6 +77,15 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.section-title {
+    text-align: center;
+    margin: 24px 0 12px;
+    font-size: 22px;
+    letter-spacing: 0.4px;
+    font-weight: 700;
+    color: var(--dark);
 }
 
 nav a {
@@ -132,6 +149,22 @@ button {
     cursor: pointer;
 }
 
+.button-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: var(--light-medium);
+    color: var(--dark);
+    border: 2px solid var(--medium-dark);
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.button-link:hover {
+    background-color: var(--dark);
+    color: white;
+}
+
 button:hover {
     background-color: var(--dark);
     color: white;
@@ -173,6 +206,139 @@ label, legend {
     display: block;
     padding: 5px;
     font-weight: bold;
+}
+
+/* Exam form */
+.exam-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exam-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.exam-mode {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 4px 0 8px;
+}
+
+.exam-radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+}
+
+.exam-radio input[type="radio"] {
+    margin: 0;
+}
+
+.exam-controls {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.exam-question {
+    font-size: 16px;
+}
+
+.exam-question-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.exam-meta,
+.exam-sources {
+    font-size: 16px;
+}
+
+.exam-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.exam-choice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.exam-choice input[type="radio"] {
+    margin: 0;
+}
+
+.exam-choice input[type="checkbox"] {
+    margin: 0;
+}
+
+.exam-topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 12px;
+}
+
+.exam-topic-item {
+    min-width: 0;
+}
+
+.exam-warning {
+    font-size: 14px;
+}
+
+.exam-context {
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.4;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.exam-sources {
+    font-size: 16px;
+}
+
+.exam-feedback {
+    font-size: 16px;
+}
+
+.exam-check {
+    margin-top: 10px;
+}
+
+.exam-attempts {
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.exam-status {
+    font-size: 16px;
+}
+
+.exam-feedback.correct {
+    border-color: #2d7a2d;
+    color: #2d7a2d;
+}
+
+.exam-feedback.wrong {
+    border-color: #a13a3a;
+    color: #a13a3a;
+}
+
+.exam-feedback.empty {
+    border-color: #8a6d3b;
+    color: #8a6d3b;
 }
 
 /* Popups */
@@ -251,6 +417,23 @@ fieldset {
     text-align:  center;
 }
 
+.app-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.app-title {
+    text-align: center;
+    margin: 10px 0 20px;
+    font-size: 28px;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
 .palettes-list {
     padding: 15px;
     display: flex;
@@ -275,6 +458,32 @@ fieldset {
 
 .theme-option {
     padding: 8px 12px;
+}
+
+.details-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 0;
+}
+
+.details-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.details-pagination-actions {
+    width: 100%;
+}
+
+.details-prev {
+    float: left;
+}
+
+.details-next {
+    float: right;
 }
 
 .theme-option.active {

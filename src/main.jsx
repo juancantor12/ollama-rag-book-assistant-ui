@@ -7,6 +7,8 @@ import Ask from './Ask.jsx'
 import Recover from './Recover.jsx'
 import UploadBook from './UploadBook.jsx'
 import ManageAccess from './ManageAccess.jsx'
+import Exam from './Exam/Exam.jsx'
+import BookDetails from './Embeddings/BookDetails.jsx'
 import NotFound from './Utils/NotFound.jsx'
 import PalettePicker from './Utils/PalettePicker.jsx'
 import './assets/App.css'
@@ -25,6 +27,8 @@ createRoot(document.getElementById('root')).render(
                     <Route path={base+"/recover_admin"} element={<Recover />} />
                     <Route path={base+"/ask"} element={<Ask />} />
                     <Route path={base+"/upload_book"} element={<UploadBook />} />
+                    <Route path={base+"/book_details/:book"} element={<BookDetails />} />
+                    <Route path={base+"/exam"} element={<Exam />} />
                     <Route path={base+"/manage_access"} element={<ManageAccess />} />
                     <Route path={base+"*"} element={<NotFound />} />
                 </Routes>

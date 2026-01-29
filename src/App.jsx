@@ -98,7 +98,7 @@ function App() {
             {isLoadingServerStatus && <p className="card war">Waiting for the server...</p>}
             {isErrorServerStatus && <p className="card war">The server is currently unavailable, please see the <a href="#demo">demo</a>.</p>}
             {isSuccessServerStatus && isErrorCheckSession && LoginForm }
-            <h3>What is this app about.</h3>
+            <h2 className="section-title">What is this app about.</h2>
             <div className="card">
                  This application allows the user to provide a large book in PDF 
                  (text based) and to query the contents of the book using natural 
@@ -130,7 +130,7 @@ function App() {
                     </a> and set it up to point at your local API.
                 </div>
             </div>
-            <h3> Demo</h3>
+            <h2 className="section-title">Demo</h2>
             <Demo />
         </>
     )

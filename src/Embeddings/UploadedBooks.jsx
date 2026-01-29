@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
+import { NavLink } from "react-router"
 import { useGet, useGenerateEmbeddings, paths } from "../Api/Api.jsx"
+const base = import.meta.env.VITE_ENV === "local" ? "" : "/"+import.meta.env.VITE_REPO
 
 function UploadedBooks ({ _ }) {
     const [msg, setMsg] = useState('')
@@ -20,36 +22,30 @@ function UploadedBooks ({ _ }) {
         refetchLoadBooks()
     }, [])
 
-    const GenerateEmbeddingsButton = ({ book, hasEmbeddings }) => {
-        const [done, setDone] = useState(false)
+    const GenerateEmbeddingsButton = ({ book, progress }) => {
         const [generating, setGenerating] = useState(false)
-        const { progress, isError: progressError, generateEmbeddings } = useGenerateEmbeddings()
-        const handleGenerate = (e, book) => {
+        const { progress: liveProgress, generateEmbeddings } = useGenerateEmbeddings()
+        const handleGenerate = (e, book, resume = false) => {
             e.preventDefault()
             setGenerating(true)
-            setDone(false)
-            generateEmbeddings(book)
+            generateEmbeddings(book, { resume })
         }
         useEffect(()=>{
-            if (progress === "done"){
-                setDone(true)
+            if (liveProgress === "done"){
                 setGenerating(false)
-            } else {
-                setDone(false)
             }
-        }, [progress])
-        const showGenerated = done || hasEmbeddings
+        }, [liveProgress])
+        const isComplete = progress?.is_complete ?? false
+        const hasCheckpoint = progress?.has_checkpoint ?? false
+        const buttonLabel = isComplete ? "Regenerate" : hasCheckpoint ? "Resume" : "Generate"
+        const shouldResume = !isComplete && hasCheckpoint
         return (
             generating ? (
-                <span>{progress}</span>
+                <span>{liveProgress}</span>
             ) : (
-                showGenerated ? (
-                    <span>
-                        Generated. <button onClick={(e) => handleGenerate(e, book)}>Regenerate</button>
-                    </span>
-                ) : (
-                    <button onClick={(e) => handleGenerate(e, book)}>Generate</button>
-                )
+                <button onClick={(e) => handleGenerate(e, book, shouldResume)}>
+                    {buttonLabel}
+                </button>
             )
         )
     }
@@ -59,8 +55,10 @@ function UploadedBooks ({ _ }) {
             <table border="1" cellPadding="10">
                 <thead>
                     <tr>
-                        <th width="80%">Book</th>
-                        <th width="20%">Embeddings DB</th>
+                        <th width="60%">Book</th>
+                        <th width="15%">Progress</th>
+                        <th width="15%">Embeddings</th>
+                        <th width="10%">Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,10 +66,34 @@ function UploadedBooks ({ _ }) {
                     <tr key={index}>
                       <td>{book.book}</td>
                       <td>
+                        {book.progress?.page_count ? (
+                            <>
+                                <progress
+                                    value={
+                                        Math.min(
+                                            100,
+                                            Math.round(
+                                                (book.progress.parsed_pages / book.progress.page_count) * 100
+                                            )
+                                        )
+                                    }
+                                    max="100"
+                                />
+                                {" "}
+                                {book.progress.parsed_pages} / {book.progress.page_count}
+                            </>
+                        ) : "-"}
+                      </td>
+                      <td>
                         <GenerateEmbeddingsButton
                             book={book.book}
-                            hasEmbeddings={book.embeddings}
+                            progress={book.progress}
                         />
+                      </td>
+                      <td>
+                        <NavLink className="button-link" to={`${base}/book_details/${encodeURIComponent(book.book)}`}>
+                            Details
+                        </NavLink>
                       </td>
                     </tr>
                   ))}

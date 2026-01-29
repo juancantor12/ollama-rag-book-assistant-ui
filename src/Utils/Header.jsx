@@ -4,11 +4,11 @@ function Header() {
     const username = localStorage.getItem("username")
     return (
         <>
-            <div>
+            <div className="app-header">
                 <img src={app_icon} className="logo center" alt="Vite logo" />
                 {username && username !=="" && <div className="center">Welcome {username}</div>}
             </div>
-            <h1>Ollama book assistant.</h1>
+            <h1 className="app-title">Ollama book assistant.</h1>
         </>
     )
 }
